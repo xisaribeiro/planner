@@ -1,0 +1,147 @@
+[
+ {
+  "titulo": "Primeiros passos",
+  "etapas": [
+   {
+    "titulo": "Introduction to SQL",
+    "tipo": "introdução",
+    "url": "https://sqlbolt.com/lesson/introduction"
+   },
+   {
+    "titulo": "SQL Lesson 1: SELECT queries 101",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/select_queries_introduction"
+   },
+   {
+    "titulo": "SQL Lesson 2: Queries with constraints (Pt. 1)",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/select_queries_with_constraints"
+   },
+   {
+    "titulo": "SQL Lesson 3: Queries with constraints (Pt. 2)",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/select_queries_with_constraints_pt_2"
+   },
+   {
+    "titulo": "SQL Lesson 4: Filtering and sorting Query results",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/filtering_sorting_query_results"
+   },
+   {
+    "titulo": "SQL Review: Simple SELECT Queries",
+    "tipo": "revisão",
+    "url": "https://sqlbolt.com/lesson/select_queries_review"
+   }
+  ]
+ },
+ {
+  "titulo": "Juntando tabelas",
+  "etapas": [
+   {
+    "titulo": "SQL Lesson 6: Multi-table queries with JOINs",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/select_queries_with_joins"
+   },
+   {
+    "titulo": "SQL Lesson 7: OUTER JOINs",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/select_queries_with_outer_joins"
+   },
+   {
+    "titulo": "SQL Lesson 8: A short note on NULLs",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/select_queries_with_nulls"
+   }
+  ]
+ },
+ {
+  "titulo": "Cálculos e agregações",
+  "etapas": [
+   {
+    "titulo": "SQL Lesson 9: Queries with expressions",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/select_queries_with_expressions"
+   },
+   {
+    "titulo": "SQL Lesson 10: Queries with aggregates (Pt. 1)",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/select_queries_with_aggregates"
+   },
+   {
+    "titulo": "SQL Lesson 11: Queries with aggregates (Pt. 2)",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/select_queries_with_aggregates_pt_2"
+   },
+   {
+    "titulo": "SQL Lesson 12: Order of execution of a Query",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/select_queries_order_of_execution"
+   }
+  ]
+ },
+ {
+  "titulo": "Alterando dados",
+  "etapas": [
+   {
+    "titulo": "SQL Lesson 13: Inserting rows",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/inserting_rows"
+   },
+   {
+    "titulo": "SQL Lesson 14: Updating rows",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/updating_rows"
+   },
+   {
+    "titulo": "SQL Lesson 15: Deleting rows",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/deleting_rows"
+   }
+  ]
+ },
+ {
+  "titulo": "Estrutura das tabelas",
+  "etapas": [
+   {
+    "titulo": "SQL Lesson 16: Creating tables",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/creating_tables"
+   },
+   {
+    "titulo": "SQL Lesson 17: Altering tables",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/altering_tables"
+   },
+   {
+    "titulo": "SQL Lesson 18: Dropping tables",
+    "tipo": "lição",
+    "url": "https://sqlbolt.com/lesson/dropping_tables"
+   },
+   {
+    "titulo": "SQL Lesson X: To infinity and beyond!",
+    "tipo": "encerramento",
+    "url": "https://sqlbolt.com/lesson/end"
+   }
+  ]
+ },
+ {
+  "titulo": "Tópicos intermediários",
+  "etapas": [
+   {
+    "titulo": "Intermediate SQL Topics",
+    "tipo": "introdução",
+    "url": "https://sqlbolt.com/topic/introduction"
+   },
+   {
+    "titulo": "SQL Topic: Subqueries",
+    "tipo": "tópico",
+    "url": "https://sqlbolt.com/topic/subqueries"
+   },
+   {
+    "titulo": "SQL Topic: Unions, Intersections & Exceptions",
+    "tipo": "tópico",
+    "url": "https://sqlbolt.com/topic/set_operations"
+   }
+  ]
+ }
+]

@@ -1,0 +1,56 @@
+/* Tokens de design. O escuro é redefinido pelo sistema (sem escolha salva) e pelo botão de tema. */
+:root {
+  color-scheme: light;
+  --bg: #F4F1EB;
+  --card: #FBF9F5;
+  --ink: #3B3834;
+  --muted: #867F75;
+  --line: #E6E0D5;
+  --on-pastel: #3B3834;
+
+  --lilac: #CBC3E3;
+  --sage: #C2D2BD;
+  --blue: #C3D2E6;
+  --peach: #F0CBAE;
+  --butter: #EBDDA8;
+  --rose: #E6C4C4;
+  --coral: #EAB4A7;
+  --coral-ink: #B8604F;
+  --folga: #D63C3C;
+
+  --mix: 72%;
+  --qmix: 52%;
+
+  --display: 'Playfair Display', Georgia, serif;
+  --body: 'Quicksand', system-ui, -apple-system, sans-serif;
+
+  --rail-w: 168px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #1F1E1C;
+    --card: #292724;
+    --ink: #ECE8DF;
+    --muted: #A39D92;
+    --line: #3A3733;
+    --coral-ink: #E39A8B;
+    --folga: #F2685F;
+    --mix: 40%;
+    --qmix: 30%;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #1F1E1C;
+  --card: #292724;
+  --ink: #ECE8DF;
+  --muted: #A39D92;
+  --line: #3A3733;
+  --coral-ink: #E39A8B;
+  --folga: #F2685F;
+  --mix: 40%;
+  --qmix: 30%;
+}

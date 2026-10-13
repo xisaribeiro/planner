@@ -1,0 +1,1423 @@
+[
+ {
+  "modulo": 4,
+  "titulo": "Relacionamentos",
+  "blocos": [
+   {
+    "minutos_a_1_25x": 59,
+    "aulas": [
+     {
+      "titulo": "Relacionamentos no Power BI - Introdução",
+      "duracao_segundos": 449
+     },
+     {
+      "titulo": "Relacionamentos x Mesclar Consultas",
+      "duracao_segundos": 220
+     },
+     {
+      "titulo": "Tabela Fato x Tabela Características",
+      "duracao_segundos": 647
+     },
+     {
+      "titulo": "Identificando as Tabelas Fato e Características",
+      "duracao_segundos": 635
+     },
+     {
+      "titulo": "Chave Primária x Chave Estrangeira",
+      "duracao_segundos": 525
+     },
+     {
+      "titulo": "Identificando as Chaves Primárias e Estrangeiras",
+      "duracao_segundos": 807
+     },
+     {
+      "titulo": "Por que precisamos criar Relacionamentos entre Tabelas",
+      "duracao_segundos": 327
+     },
+     {
+      "titulo": "Criando Relacionamentos",
+      "duracao_segundos": 792
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 56,
+    "aulas": [
+     {
+      "titulo": "O que um relacionamento muda na prática",
+      "duracao_segundos": 676
+     },
+     {
+      "titulo": "Trabalhando com Várias Tabelas Fato",
+      "duracao_segundos": 936
+     },
+     {
+      "titulo": "Entendendo a direção do filtro",
+      "duracao_segundos": 919
+     },
+     {
+      "titulo": "Cardinalidade dos Relacionamentos",
+      "duracao_segundos": 413
+     },
+     {
+      "titulo": "Relacionamentos Ativos x Relacionamentos Inativos",
+      "duracao_segundos": 759
+     },
+     {
+      "titulo": "Por que tenho valores 'em branco' no relatório? (Parte 1)",
+      "duracao_segundos": 506
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 50,
+    "aulas": [
+     {
+      "titulo": "Por que tenho valores 'em branco' no relatório? (Parte 2)",
+      "duracao_segundos": 449
+     },
+     {
+      "titulo": "E se eu não tiver tabelas fato e dimensão separadas",
+      "duracao_segundos": 530
+     },
+     {
+      "titulo": "Separando o Tabelão em Tabelas Fato e Dimensão (Parte 1)",
+      "duracao_segundos": 1060
+     },
+     {
+      "titulo": "Separando o Tabelão em Tabelas Fato e Dimensão (Parte 2)",
+      "duracao_segundos": 982
+     },
+     {
+      "titulo": "Separando o Tabelão em Tabelas Fato e Dimensão (Parte 3)",
+      "duracao_segundos": 740
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 24,
+    "aulas": [
+     {
+      "titulo": "Separando o Tabelão em Tabelas Fato e Dimensão (Parte 4)",
+      "duracao_segundos": 740
+     },
+     {
+      "titulo": "Ocultando Campos do Relatório",
+      "duracao_segundos": 676
+     },
+     {
+      "titulo": "Relacionamentos: Revisão e Boas Práticas",
+      "duracao_segundos": 416
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "modulo": 5,
+  "titulo": "Funções DAX",
+  "blocos": [
+   {
+    "minutos_a_1_25x": 54,
+    "aulas": [
+     {
+      "titulo": "Introdução às Fórmulas DAX",
+      "duracao_segundos": 151
+     },
+     {
+      "titulo": "Introdução a Colunas Calculadas",
+      "duracao_segundos": 581
+     },
+     {
+      "titulo": "Introdução a Medidas (Parte 1)",
+      "duracao_segundos": 906
+     },
+     {
+      "titulo": "Introdução a Medidas (Parte 2)",
+      "duracao_segundos": 766
+     },
+     {
+      "titulo": "Recapitulando - Colunas Calculadas x Medidas",
+      "duracao_segundos": 288
+     },
+     {
+      "titulo": "DAX - Sintaxe e Principais Operadores",
+      "duracao_segundos": 393
+     },
+     {
+      "titulo": "DAX - Principais Fórmulas",
+      "duracao_segundos": 385
+     },
+     {
+      "titulo": "Função IF",
+      "duracao_segundos": 549
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 54,
+    "aulas": [
+     {
+      "titulo": "Função IF Aninhada",
+      "duracao_segundos": 695
+     },
+     {
+      "titulo": "Função SWITCH (Parte 1)",
+      "duracao_segundos": 646
+     },
+     {
+      "titulo": "Função SWITCH (Parte 2)",
+      "duracao_segundos": 776
+     },
+     {
+      "titulo": "Função RELATED",
+      "duracao_segundos": 681
+     },
+     {
+      "titulo": "IF com várias condições (AND) - Desafio",
+      "duracao_segundos": 363
+     },
+     {
+      "titulo": "IF com várias condições (AND) - Resolução",
+      "duracao_segundos": 879
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 53,
+    "aulas": [
+     {
+      "titulo": "IF com várias condições (OR) / Colunas no Power Query x DAX",
+      "duracao_segundos": 733
+     },
+     {
+      "titulo": "Calculando o Custo e Lucro da Venda",
+      "duracao_segundos": 600
+     },
+     {
+      "titulo": "Funções Matemáticas (Explicação)",
+      "duracao_segundos": 399
+     },
+     {
+      "titulo": "Funções SUM e AVERAGE",
+      "duracao_segundos": 930
+     },
+     {
+      "titulo": "Por que devo usar Medidas e não só colunas",
+      "duracao_segundos": 998
+     },
+     {
+      "titulo": "Funções MAX e MIN",
+      "duracao_segundos": 330
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 58,
+    "aulas": [
+     {
+      "titulo": "Funções COUNT, COUNTROWS",
+      "duracao_segundos": 505
+     },
+     {
+      "titulo": "Função DISTINCTCOUNT",
+      "duracao_segundos": 567
+     },
+     {
+      "titulo": "Criando Tabela para guardar as Medidas",
+      "duracao_segundos": 796
+     },
+     {
+      "titulo": "Criando Pastas pra guardar as Medidas",
+      "duracao_segundos": 537
+     },
+     {
+      "titulo": "Análise Drill Down (Parte 1)",
+      "duracao_segundos": 522
+     },
+     {
+      "titulo": "Análise Drill Down (Parte 2)",
+      "duracao_segundos": 441
+     },
+     {
+      "titulo": "Função CALCULATE (Parte 1)",
+      "duracao_segundos": 350
+     },
+     {
+      "titulo": "Função CALCULATE (Parte 2)",
+      "duracao_segundos": 641
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 52,
+    "aulas": [
+     {
+      "titulo": "Função CALCULATE (Parte 3)",
+      "duracao_segundos": 461
+     },
+     {
+      "titulo": "Função CALCULATE (Parte 4)",
+      "duracao_segundos": 990
+     },
+     {
+      "titulo": "Função ALL (Parte 1)",
+      "duracao_segundos": 255
+     },
+     {
+      "titulo": "Função ALL (Parte 2)",
+      "duracao_segundos": 668
+     },
+     {
+      "titulo": "Função ALL (Parte 3)",
+      "duracao_segundos": 939
+     },
+     {
+      "titulo": "Exercício Função ALL",
+      "duracao_segundos": 561
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 53,
+    "aulas": [
+     {
+      "titulo": "Calculando % do Subtotal",
+      "duracao_segundos": 803
+     },
+     {
+      "titulo": "Exercício - % do Subtotal",
+      "duracao_segundos": 644
+     },
+     {
+      "titulo": "Novo Layout da Guia Relatório no Power BI",
+      "duracao_segundos": 108
+     },
+     {
+      "titulo": "Funções Iteradoras (X) - Explicação",
+      "duracao_segundos": 871
+     },
+     {
+      "titulo": "Função SUMX (Parte 1)",
+      "duracao_segundos": 356
+     },
+     {
+      "titulo": "Função SUMX (Parte 2)",
+      "duracao_segundos": 343
+     },
+     {
+      "titulo": "SUMX, AVERAGEX, MAXX & MINX",
+      "duracao_segundos": 216
+     },
+     {
+      "titulo": "Exercício - Funções Iteradoras",
+      "duracao_segundos": 671
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 55,
+    "aulas": [
+     {
+      "titulo": "Criando Tabela Calendário com DAX",
+      "duracao_segundos": 629
+     },
+     {
+      "titulo": "Deixando a Tabela Calendário Automática",
+      "duracao_segundos": 637
+     },
+     {
+      "titulo": "Funções de DATA - Criação dos Relacionamentos",
+      "duracao_segundos": 688
+     },
+     {
+      "titulo": "Funções de Inteligência de Tempo - Explicação",
+      "duracao_segundos": 975
+     },
+     {
+      "titulo": "Acumulado no Ano - Função DATESYTD",
+      "duracao_segundos": 734
+     },
+     {
+      "titulo": "Acumulado no Ano - Função TOTALYTD & Mudança de Período Fiscal",
+      "duracao_segundos": 493
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 54,
+    "aulas": [
+     {
+      "titulo": "Acumulado no Mês e Trimestre (MTD e QTD)",
+      "duracao_segundos": 556
+     },
+     {
+      "titulo": "DATEADD - Comparação Entre Períodos (Parte 1)",
+      "duracao_segundos": 908
+     },
+     {
+      "titulo": "DATEADD - Comparação Entre Períodos (Parte 2)",
+      "duracao_segundos": 526
+     },
+     {
+      "titulo": "DATEADD - Comparação Entre Períodos (Parte 3)",
+      "duracao_segundos": 794
+     },
+     {
+      "titulo": "DATEADD - Comparação Entre Períodos (Parte 4)",
+      "duracao_segundos": 604
+     },
+     {
+      "titulo": "DATEADD - Comparação Entre Períodos (Parte 5)",
+      "duracao_segundos": 672
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 25,
+    "aulas": [
+     {
+      "titulo": "DATESINPERIOD pra calcular o acumulado dos últimos X dias",
+      "duracao_segundos": 945
+     },
+     {
+      "titulo": "DATESINPERIOD - Calculando Média Móvel",
+      "duracao_segundos": 639
+     },
+     {
+      "titulo": "Funções DAX - Boas Práticas",
+      "duracao_segundos": 320
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "modulo": 6,
+  "titulo": "Storytelling",
+  "blocos": [
+   {
+    "minutos_a_1_25x": 54,
+    "aulas": [
+     {
+      "titulo": "Introdução ao Storytelling e Escolha de Gráficos (Parte 1)",
+      "duracao_segundos": 557
+     },
+     {
+      "titulo": "Escolha de Gráficos (Parte 2)",
+      "duracao_segundos": 568
+     },
+     {
+      "titulo": "Escolha de Gráficos (Parte 3)",
+      "duracao_segundos": 667
+     },
+     {
+      "titulo": "Storytelling: Simplicidade e Organização",
+      "duracao_segundos": 830
+     },
+     {
+      "titulo": "Storytelling: Consistência e Contexto",
+      "duracao_segundos": 418
+     },
+     {
+      "titulo": "Storytelling: Escala e Saturação",
+      "duracao_segundos": 506
+     },
+     {
+      "titulo": "Storytelling: Onde buscar inspiração (Parte 1)",
+      "duracao_segundos": 530
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 30,
+    "aulas": [
+     {
+      "titulo": "Storytelling: Onde buscar inspiração (Parte 2)",
+      "duracao_segundos": 435
+     },
+     {
+      "titulo": "Storytelling: Inspiração (Parte 3) e Gráficos que você deve evitar",
+      "duracao_segundos": 499
+     },
+     {
+      "titulo": "Storytelling: Ícones",
+      "duracao_segundos": 372
+     },
+     {
+      "titulo": "Storytelling: Plano de Fundo e Capa",
+      "duracao_segundos": 293
+     },
+     {
+      "titulo": "Storytelling: Escolha de Cores",
+      "duracao_segundos": 645
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "modulo": 7,
+  "titulo": "Dashboard & Visualização de Dados",
+  "blocos": [
+   {
+    "minutos_a_1_25x": 53,
+    "aulas": [
+     {
+      "titulo": "Entendendo os indicadores que queremos apresentar",
+      "duracao_segundos": 591
+     },
+     {
+      "titulo": "Esboço, Esqueleto e Layout do Dashboard",
+      "duracao_segundos": 517
+     },
+     {
+      "titulo": "Alterando o Tema do Relatório",
+      "duracao_segundos": 813
+     },
+     {
+      "titulo": "Importando o Plano de Fundo e Criando o Primeiro Visual",
+      "duracao_segundos": 764
+     },
+     {
+      "titulo": "Criando os Cartões e Segmentação de Dados",
+      "duracao_segundos": 480
+     },
+     {
+      "titulo": "Analisando o Crescimento do Faturamento",
+      "duracao_segundos": 805
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 52,
+    "aulas": [
+     {
+      "titulo": "Variáveis em DAX & Corrigindo o 'Em Branco'",
+      "duracao_segundos": 753
+     },
+     {
+      "titulo": "Crescimento do Lucro & Vendas",
+      "duracao_segundos": 958
+     },
+     {
+      "titulo": "Aplicando Formatação Condicional nas Análises de Crescimento",
+      "duracao_segundos": 1051
+     },
+     {
+      "titulo": "Novo Cartão no Power BI",
+      "duracao_segundos": 1168
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 53,
+    "aulas": [
+     {
+      "titulo": "Análise de Faturamento ao longo do tempo (Parte 1)",
+      "duracao_segundos": 564
+     },
+     {
+      "titulo": "Análise de Faturamento ao longo do tempo (Parte 2)",
+      "duracao_segundos": 730
+     },
+     {
+      "titulo": "Análise de Faturamento ao longo do tempo (Parte 3) & Ordenando os Meses no Gráfico",
+      "duracao_segundos": 713
+     },
+     {
+      "titulo": "Gráfico de Pizza/Rosca",
+      "duracao_segundos": 507
+     },
+     {
+      "titulo": "Gráfico de Barras e Análise Top N",
+      "duracao_segundos": 773
+     },
+     {
+      "titulo": "Análise em Matriz com Drill Down",
+      "duracao_segundos": 691
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 59,
+    "aulas": [
+     {
+      "titulo": "Análise com Árvore de Hierarquia",
+      "duracao_segundos": 667
+     },
+     {
+      "titulo": "Botão para Trocar Análise Automaticamente",
+      "duracao_segundos": 688
+     },
+     {
+      "titulo": "Função TOPN",
+      "duracao_segundos": 969
+     },
+     {
+      "titulo": "Análise de Produto Mais Vendido",
+      "duracao_segundos": 699
+     },
+     {
+      "titulo": "Usando o Enlighten Data Story",
+      "duracao_segundos": 911
+     },
+     {
+      "titulo": "Exercício: Enlighten Data Story para analisar a Melhor Loja",
+      "duracao_segundos": 489
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 55,
+    "aulas": [
+     {
+      "titulo": "Análise do Mês Mais Recente",
+      "duracao_segundos": 1014
+     },
+     {
+      "titulo": "Gráfico de Scroller (Barra Animada)",
+      "duracao_segundos": 412
+     },
+     {
+      "titulo": "Análises de Devoluções",
+      "duracao_segundos": 668
+     },
+     {
+      "titulo": "Análise de Devolução Mensal",
+      "duracao_segundos": 590
+     },
+     {
+      "titulo": "Devoluções por Região (Gráfico de Mapa)",
+      "duracao_segundos": 541
+     },
+     {
+      "titulo": "Análise com Drill Down",
+      "duracao_segundos": 877
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 56,
+    "aulas": [
+     {
+      "titulo": "Sincronizando Filtros do Dashboard",
+      "duracao_segundos": 477
+     },
+     {
+      "titulo": "Editando Interações no Relatório (Parte 1)",
+      "duracao_segundos": 417
+     },
+     {
+      "titulo": "Editando Interações no Relatório (Parte 2)",
+      "duracao_segundos": 567
+     },
+     {
+      "titulo": "Play Axis: Filtro Dinâmico no Dashboard",
+      "duracao_segundos": 644
+     },
+     {
+      "titulo": "Tooltip/Dicas de Ferramentas (Opção Básica)",
+      "duracao_segundos": 549
+     },
+     {
+      "titulo": "Tooltip Dicas de Ferramentas (Opção Avançada) - Parte 1",
+      "duracao_segundos": 566
+     },
+     {
+      "titulo": "Tooltip Dicas de Ferramentas (Opção Avançada) - Parte 2",
+      "duracao_segundos": 958
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 57,
+    "aulas": [
+     {
+      "titulo": "Tooltip Dicas de Ferramentas (Opção Avançada) - Parte 3",
+      "duracao_segundos": 525
+     },
+     {
+      "titulo": "Tooltip Vendas (Parte 1)",
+      "duracao_segundos": 623
+     },
+     {
+      "titulo": "Criando Links pras suas Imagens (Google Drive)",
+      "duracao_segundos": 933
+     },
+     {
+      "titulo": "Criando Links pras suas Imagens (Img BB)",
+      "duracao_segundos": 565
+     },
+     {
+      "titulo": "Trazendo a Tabela de Imagens pro Power BI",
+      "duracao_segundos": 529
+     },
+     {
+      "titulo": "Visual Simple Image & Finalizando o Tooltip",
+      "duracao_segundos": 548
+     },
+     {
+      "titulo": "Painel Explicativo (Parte 1)",
+      "duracao_segundos": 572
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 58,
+    "aulas": [
+     {
+      "titulo": "Painel Explicativo (Parte 2)",
+      "duracao_segundos": 667
+     },
+     {
+      "titulo": "Painel Explicativo (Parte 3)",
+      "duracao_segundos": 926
+     },
+     {
+      "titulo": "Painel Explicativo (Parte 4)",
+      "duracao_segundos": 331
+     },
+     {
+      "titulo": "Painel de Filtro Retrátil (Parte 1)",
+      "duracao_segundos": 911
+     },
+     {
+      "titulo": "Painel de Filtro Retrátil (Parte 2)",
+      "duracao_segundos": 844
+     },
+     {
+      "titulo": "Inserindo a Capa do Dashboard",
+      "duracao_segundos": 697
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 11,
+    "aulas": [
+     {
+      "titulo": "Criando Hiperlinks para Navegação entre páginas",
+      "duracao_segundos": 313
+     },
+     {
+      "titulo": "Ajustando os Hiperlinks",
+      "duracao_segundos": 492
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "modulo": 10,
+  "titulo": "Power BI Online",
+  "blocos": [
+   {
+    "minutos_a_1_25x": 57,
+    "aulas": [
+     {
+      "titulo": "Power BI Online: Introdução",
+      "duracao_segundos": 258
+     },
+     {
+      "titulo": "Criando Conta Gratuita no Power BI Online",
+      "duracao_segundos": 601
+     },
+     {
+      "titulo": "Ambiente do Power BI online",
+      "duracao_segundos": 385
+     },
+     {
+      "titulo": "Publicando Relatório no Power BI online",
+      "duracao_segundos": 896
+     },
+     {
+      "titulo": "Publicando o Relatório na Web",
+      "duracao_segundos": 691
+     },
+     {
+      "titulo": "Tipos de Licença do Power BI (Free x Pro)",
+      "duracao_segundos": 326
+     },
+     {
+      "titulo": "Tipos de Licença do Power BI (Premium, Premium por Usuário e Embedded)",
+      "duracao_segundos": 684
+     },
+     {
+      "titulo": "Compartilhando o Relatório com Colegas da Empresa",
+      "duracao_segundos": 419
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 53,
+    "aulas": [
+     {
+      "titulo": "Compartilhando o Relatório com pessoas de fora da Empresa",
+      "duracao_segundos": 451
+     },
+     {
+      "titulo": "Exportar para Excel",
+      "duracao_segundos": 651
+     },
+     {
+      "titulo": "Exportar para PDF e PowerPoint",
+      "duracao_segundos": 618
+     },
+     {
+      "titulo": "Criando um Workspace",
+      "duracao_segundos": 534
+     },
+     {
+      "titulo": "Criando um Aplicativo no Power BI Online - Parte 1",
+      "duracao_segundos": 345
+     },
+     {
+      "titulo": "Criando um Aplicativo no Power BI Online - Parte 2",
+      "duracao_segundos": 613
+     },
+     {
+      "titulo": "Download dos Arquivos e Ajustando a Fonte de Dados",
+      "duracao_segundos": 319
+     },
+     {
+      "titulo": "Atualizando o Power BI Online com Novos Dados",
+      "duracao_segundos": 477
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 52,
+    "aulas": [
+     {
+      "titulo": "Relatórios x Painéis (Reports x Dashboards)",
+      "duracao_segundos": 716
+     },
+     {
+      "titulo": "Enviando o Relatório e Dashboard por e-mail (\"Assinatura\")",
+      "duracao_segundos": 439
+     },
+     {
+      "titulo": "Segurança em Nível de Linha (RLS) - Parte 1",
+      "duracao_segundos": 719
+     },
+     {
+      "titulo": "Segurança em Nível de Linha (RLS) - Parte 2",
+      "duracao_segundos": 533
+     },
+     {
+      "titulo": "RLS Dinâmico",
+      "duracao_segundos": 1027
+     },
+     {
+      "titulo": "Entendendo o Gateway",
+      "duracao_segundos": 502
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 60,
+    "aulas": [
+     {
+      "titulo": "Instalando e Configurando o Gateway Pessoal",
+      "duracao_segundos": 770
+     },
+     {
+      "titulo": "Instalando e Configurando o Gateway Enterprise",
+      "duracao_segundos": 1368
+     },
+     {
+      "titulo": "Agendando Atualizações Automáticas",
+      "duracao_segundos": 234
+     },
+     {
+      "titulo": "Como Atualizar Automaticamente Sem Gateway (Parte 1)",
+      "duracao_segundos": 582
+     },
+     {
+      "titulo": "Como Atualizar Automaticamente Sem Gateway (Parte 2)",
+      "duracao_segundos": 727
+     },
+     {
+      "titulo": "Criando o Layout do Relatório para Celular",
+      "duracao_segundos": 502
+     },
+     {
+      "titulo": "Usando o Power BI no Celular",
+      "duracao_segundos": 336
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "modulo": 12,
+  "titulo": "DAX Avançado",
+  "blocos": [
+   {
+    "minutos_a_1_25x": 54,
+    "aulas": [
+     {
+      "titulo": "Introdução",
+      "duracao_segundos": 90
+     },
+     {
+      "titulo": "Contextos de Avaliação",
+      "duracao_segundos": 488
+     },
+     {
+      "titulo": "Testando os conhecimentos de Contexto de filtro",
+      "duracao_segundos": 670
+     },
+     {
+      "titulo": "Testando os conhecimentos de Contexto de filtro (Parte 2)",
+      "duracao_segundos": 357
+     },
+     {
+      "titulo": "Entendendo as bases e criando as colunas calculadas",
+      "duracao_segundos": 499
+     },
+     {
+      "titulo": "Devo usar colunas calculadas ou medidas?",
+      "duracao_segundos": 529
+     },
+     {
+      "titulo": "Criando Medidas para corrigir os cálculos",
+      "duracao_segundos": 294
+     },
+     {
+      "titulo": "Variáveis em DAX para organizar os cálculos",
+      "duracao_segundos": 328
+     },
+     {
+      "titulo": "Trocando as colunas calculadas por medidas - Parte 1",
+      "duracao_segundos": 304
+     },
+     {
+      "titulo": "Trocando as colunas calculadas por medidas - Parte 2",
+      "duracao_segundos": 508
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 59,
+    "aulas": [
+     {
+      "titulo": "Entendendo as funções iterativas do Power BI",
+      "duracao_segundos": 724
+     },
+     {
+      "titulo": "Aplicando as Funções Iterativas (Parte 1)",
+      "duracao_segundos": 386
+     },
+     {
+      "titulo": "Aplicando as Funções Iterativas (Parte 2)",
+      "duracao_segundos": 605
+     },
+     {
+      "titulo": "Criando Tabela Calendário com DAX - Função CALENDARAUTO",
+      "duracao_segundos": 437
+     },
+     {
+      "titulo": "Criando Tabela Calendário com DAX - Função CALENDAR",
+      "duracao_segundos": 663
+     },
+     {
+      "titulo": "Diferença entre criar Tabelas com DAX ou no Power Query",
+      "duracao_segundos": 312
+     },
+     {
+      "titulo": "Criando Colunas na Tabela Calendário",
+      "duracao_segundos": 664
+     },
+     {
+      "titulo": "Criando Tabelas Filtradas com a Função Filter (Parte 1)",
+      "duracao_segundos": 608
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 55,
+    "aulas": [
+     {
+      "titulo": "Criando Tabelas Filtradas com a Função Filter (Parte 2)",
+      "duracao_segundos": 610
+     },
+     {
+      "titulo": "Transição de Contexto (Parte 1)",
+      "duracao_segundos": 427
+     },
+     {
+      "titulo": "Transição de Contexto (Parte 2)",
+      "duracao_segundos": 317
+     },
+     {
+      "titulo": "Exercício - Transição de Contexto - Explicação",
+      "duracao_segundos": 153
+     },
+     {
+      "titulo": "Exercício - Transição de Contexto - Resolução",
+      "duracao_segundos": 273
+     },
+     {
+      "titulo": "Função VALUES (Parte 1)",
+      "duracao_segundos": 717
+     },
+     {
+      "titulo": "Função VALUES (Parte 2)",
+      "duracao_segundos": 352
+     },
+     {
+      "titulo": "Exercício - Função VALUES - Explicação",
+      "duracao_segundos": 334
+     },
+     {
+      "titulo": "Exercício - Função VALUES - Resolução (Parte 1)",
+      "duracao_segundos": 535
+     },
+     {
+      "titulo": "Exercício - Função VALUES - Resolução (Parte 2)",
+      "duracao_segundos": 382
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 53,
+    "aulas": [
+     {
+      "titulo": "Funções VALUES e FILTER (Parte 1)",
+      "duracao_segundos": 770
+     },
+     {
+      "titulo": "Funções VALUES e FILTER (Parte 2)",
+      "duracao_segundos": 552
+     },
+     {
+      "titulo": "Dica - Criando Medidas mais Eficientes",
+      "duracao_segundos": 386
+     },
+     {
+      "titulo": "Funções VALUES e FILTER (Parte 3)",
+      "duracao_segundos": 507
+     },
+     {
+      "titulo": "Funções VALUES e FILTER (Parte 4)",
+      "duracao_segundos": 329
+     },
+     {
+      "titulo": "Funções VALUES e FILTER (Parte 5)",
+      "duracao_segundos": 538
+     },
+     {
+      "titulo": "Função CROSSJOIN",
+      "duracao_segundos": 858
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 55,
+    "aulas": [
+     {
+      "titulo": "Exercício - Função CROSSJOIN",
+      "duracao_segundos": 806
+     },
+     {
+      "titulo": "Funções CALCULATE E ALL",
+      "duracao_segundos": 555
+     },
+     {
+      "titulo": "Funções CALCULATE E ALL - Dicas e cuidados",
+      "duracao_segundos": 484
+     },
+     {
+      "titulo": "Funções CALCULATE E ALLSELECTED",
+      "duracao_segundos": 645
+     },
+     {
+      "titulo": "Organizando as Medidas com Variáveis",
+      "duracao_segundos": 401
+     },
+     {
+      "titulo": "CALCULATE com várias condições (E)",
+      "duracao_segundos": 628
+     },
+     {
+      "titulo": "CALCULATE com várias condições (OU) - Parte 1",
+      "duracao_segundos": 610
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 54,
+    "aulas": [
+     {
+      "titulo": "CALCULATE com várias condições (OU) - Parte 2",
+      "duracao_segundos": 357
+     },
+     {
+      "titulo": "CALCULATE e CONTAINSSTRING - Filtrando se contém um texto específico",
+      "duracao_segundos": 506
+     },
+     {
+      "titulo": "Cálculo do Acumulado ao longo do tempo",
+      "duracao_segundos": 690
+     },
+     {
+      "titulo": "Dica - Formatação Personalizada de Data com a Função FORMAT",
+      "duracao_segundos": 765
+     },
+     {
+      "titulo": "Exercício - Cálculo do Acumulado ao longo do tempo",
+      "duracao_segundos": 338
+     },
+     {
+      "titulo": "Inteligência de Tempo - Funções TOTALYTD, TOTALQTD, TOTALMTD",
+      "duracao_segundos": 775
+     },
+     {
+      "titulo": "Crescimento YoY",
+      "duracao_segundos": 654
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 58,
+    "aulas": [
+     {
+      "titulo": "Função SAMEPERIODLASTYEAR - Variação de Clientes entre os anos",
+      "duracao_segundos": 747
+     },
+     {
+      "titulo": "Função USERELATIONSHIP (Parte 1)",
+      "duracao_segundos": 570
+     },
+     {
+      "titulo": "Função USERELATIONSHIP (Parte 2)",
+      "duracao_segundos": 600
+     },
+     {
+      "titulo": "Calculando Dias Úteis entre duas datas (Parte 1)",
+      "duracao_segundos": 533
+     },
+     {
+      "titulo": "Calculando Dias Úteis entre duas datas (Parte 2)",
+      "duracao_segundos": 486
+     },
+     {
+      "titulo": "Calculando Dias Úteis entre duas datas (Parte 3)",
+      "duracao_segundos": 308
+     },
+     {
+      "titulo": "Função NETWORKDAYS para calcular dias úteis",
+      "duracao_segundos": 417
+     },
+     {
+      "titulo": "Função SUMMARIZE - Agrupar Tabelas (Parte 1)",
+      "duracao_segundos": 721
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 56,
+    "aulas": [
+     {
+      "titulo": "Função SUMMARIZE - Agrupar Tabelas (Parte 2)",
+      "duracao_segundos": 484
+     },
+     {
+      "titulo": "Função SUMMARIZE - Agrupar Tabelas (Parte 3)",
+      "duracao_segundos": 496
+     },
+     {
+      "titulo": "Análise de Inadimplência de Clientes (Parte 1)",
+      "duracao_segundos": 790
+     },
+     {
+      "titulo": "Análise de Inadimplência de Clientes (Parte 2)",
+      "duracao_segundos": 795
+     },
+     {
+      "titulo": "Função RANKX",
+      "duracao_segundos": 450
+     },
+     {
+      "titulo": "Como criar vários tipos de Ranking (Parte 1)",
+      "duracao_segundos": 659
+     },
+     {
+      "titulo": "Como criar vários tipos de Ranking (Parte 2)",
+      "duracao_segundos": 557
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 57,
+    "aulas": [
+     {
+      "titulo": "Função HASONEVALUE",
+      "duracao_segundos": 544
+     },
+     {
+      "titulo": "Tornando os Rankings Dinâmicos",
+      "duracao_segundos": 449
+     },
+     {
+      "titulo": "Como criar Critérios de Desempate no Ranking",
+      "duracao_segundos": 859
+     },
+     {
+      "titulo": "Função ISINSCOPE para criar Rankings com Hierarquias",
+      "duracao_segundos": 818
+     },
+     {
+      "titulo": "Exercício: Função ISINSCOPE para criar Rankings com Hierarquias",
+      "duracao_segundos": 776
+     },
+     {
+      "titulo": "Função TOPN",
+      "duracao_segundos": 259
+     },
+     {
+      "titulo": "Função ADDCOLUMNS",
+      "duracao_segundos": 559
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 59,
+    "aulas": [
+     {
+      "titulo": "Exercício - TOPN e ADDCOLUMNS",
+      "duracao_segundos": 371
+     },
+     {
+      "titulo": "SUMX e TOPN",
+      "duracao_segundos": 552
+     },
+     {
+      "titulo": "CALCULATE e TOPN",
+      "duracao_segundos": 256
+     },
+     {
+      "titulo": "Entendendo a diferença entre ALL, ALLSELECTED e VALUES (Parte 1)",
+      "duracao_segundos": 746
+     },
+     {
+      "titulo": "Entendendo a diferença entre ALL, ALLSELECTED e VALUES (Parte 2)",
+      "duracao_segundos": 584
+     },
+     {
+      "titulo": "Ajustando as informações TOPN na Matriz",
+      "duracao_segundos": 465
+     },
+     {
+      "titulo": "Exercício - Analisando os Top 15 Produtos (Parte 1)",
+      "duracao_segundos": 336
+     },
+     {
+      "titulo": "Exercício - Analisando os Top 15 Produtos (Parte 2)",
+      "duracao_segundos": 348
+     },
+     {
+      "titulo": "Tornando o TOPN Dinâmico",
+      "duracao_segundos": 784
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 37,
+    "aulas": [
+     {
+      "titulo": "Calculando o percentual de vendas dos Top N Produtos",
+      "duracao_segundos": 611
+     },
+     {
+      "titulo": "Calculando o percentual de vendas dos Top N Produtos (Parte 2)",
+      "duracao_segundos": 336
+     },
+     {
+      "titulo": "Análise de Pareto (Parte 1)",
+      "duracao_segundos": 673
+     },
+     {
+      "titulo": "Análise de Pareto (Parte 2)",
+      "duracao_segundos": 344
+     },
+     {
+      "titulo": "Análise de Pareto (Parte 3)",
+      "duracao_segundos": 798
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "modulo": 13,
+  "titulo": "Conectando o Power BI com Bancos de Dados SQL e Introdução à linguagem SQL",
+  "blocos": [
+   {
+    "minutos_a_1_25x": 56,
+    "aulas": [
+     {
+      "titulo": "Introdução",
+      "duracao_segundos": 160
+     },
+     {
+      "titulo": "Instalando o SQL Server e o SQL Server Management Studio",
+      "duracao_segundos": 338
+     },
+     {
+      "titulo": "Download do Banco de Dados e Restaurando no SSMS",
+      "duracao_segundos": 518
+     },
+     {
+      "titulo": "Observações Importantes sobre o uso do SQL na sua empresa",
+      "duracao_segundos": 228
+     },
+     {
+      "titulo": "Importando as Tabelas do SQL para o Power BI",
+      "duracao_segundos": 566
+     },
+     {
+      "titulo": "Carregando Tabelas para o Power BI e entendendo a Consulta Nativa",
+      "duracao_segundos": 465
+     },
+     {
+      "titulo": "Analisando as Tabelas do Banco de Dados",
+      "duracao_segundos": 994
+     },
+     {
+      "titulo": "Tratando Tabela de Produtos",
+      "duracao_segundos": 965
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 56,
+    "aulas": [
+     {
+      "titulo": "Tratando Tabela de Lojas",
+      "duracao_segundos": 339
+     },
+     {
+      "titulo": "Simplificando informações de Vendas e Promoções",
+      "duracao_segundos": 663
+     },
+     {
+      "titulo": "Tratando Tabela de Cotações",
+      "duracao_segundos": 344
+     },
+     {
+      "titulo": "Criando Chave em Comum Entre Tabela de Vendas e Cotações",
+      "duracao_segundos": 609
+     },
+     {
+      "titulo": "Comandos Básicos em SQL - Select - From",
+      "duracao_segundos": 590
+     },
+     {
+      "titulo": "Select de colunas específicas, Comentários e Renomear Colunas",
+      "duracao_segundos": 335
+     },
+     {
+      "titulo": "Comando Where - Criando Filtros no SQL",
+      "duracao_segundos": 412
+     },
+     {
+      "titulo": "Comando Where com And",
+      "duracao_segundos": 250
+     },
+     {
+      "titulo": "Comando Where com Or e And",
+      "duracao_segundos": 231
+     },
+     {
+      "titulo": "Exercícios (Parte 1)",
+      "duracao_segundos": 455
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 55,
+    "aulas": [
+     {
+      "titulo": "Exercícios (Parte 2)",
+      "duracao_segundos": 313
+     },
+     {
+      "titulo": "Exercícios (Parte 3)",
+      "duracao_segundos": 286
+     },
+     {
+      "titulo": "Exercícios (Parte 4)",
+      "duracao_segundos": 149
+     },
+     {
+      "titulo": "Funções MAX, COUNT, AVG e DISTINCT",
+      "duracao_segundos": 642
+     },
+     {
+      "titulo": "Função Group By (Parte 1)",
+      "duracao_segundos": 312
+     },
+     {
+      "titulo": "Função Group By (Parte 2)",
+      "duracao_segundos": 421
+     },
+     {
+      "titulo": "Group By e Where",
+      "duracao_segundos": 335
+     },
+     {
+      "titulo": "Comandos Order By e Top",
+      "duracao_segundos": 308
+     },
+     {
+      "titulo": "Exercício Order By e Top",
+      "duracao_segundos": 337
+     },
+     {
+      "titulo": "Formas de Mesclar Consultas (Join)",
+      "duracao_segundos": 677
+     },
+     {
+      "titulo": "Como usar o JOIN no SQL",
+      "duracao_segundos": 344
+     }
+    ]
+   },
+   {
+    "minutos_a_1_25x": 52,
+    "aulas": [
+     {
+      "titulo": "Criando a Dimensão Loja (Parte 1)",
+      "duracao_segundos": 570
+     },
+     {
+      "titulo": "Criando a Dimensão Loja (Parte 2)",
+      "duracao_segundos": 437
+     },
+     {
+      "titulo": "Juntando Tabelas de Cotações e Moedas",
+      "duracao_segundos": 458
+     },
+     {
+      "titulo": "Criando a Dimensão Produto",
+      "duracao_segundos": 719
+     },
+     {
+      "titulo": "Criando Chave para Relacionar Cotações e Vendas (Parte 1)",
+      "duracao_segundos": 647
+     },
+     {
+      "titulo": "Criando Chave para Relacionar Cotações e Vendas (Parte 2)",
+      "duracao_segundos": 446
+     },
+     {
+      "titulo": "Transformando as Queries em Views e importando para o Power BI",
+      "duracao_segundos": 606
+     }
+    ]
+   }
+  ]
+ }
+]

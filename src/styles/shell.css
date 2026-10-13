@@ -1,0 +1,73 @@
+/* Estrutura: menu lateral de 168px no desktop e no iPad na horizontal, faixa vertical de 50px no celular. */
+.app { display: grid; grid-template-columns: var(--rail-w) minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; }
+
+.rail {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 34px 14px 22px 22px;
+  border-right: 1px solid var(--line);
+}
+.rail-fim { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+
+.tabs { display: flex; flex-direction: column; gap: 10px; }
+.tab {
+  display: block;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 4px 0;
+}
+.tab:hover { color: var(--ink); }
+.tab[aria-current="page"] { color: var(--ink); font-size: 1.5rem; }
+
+.theme {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.theme svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+.main {
+  min-width: 0;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 30px 28px 120px;
+}
+.main[data-rota="hoje"] { max-width: 860px; }
+
+.pagina-titulo { font-size: clamp(2.8rem, 9vw, 4.2rem); line-height: 1.05; }
+.pagina-aviso { margin: 8px 0 0; color: var(--muted); max-width: 60ch; }
+
+@media (max-width: 820px) {
+  :root { --rail-w: 50px; }
+  .rail { padding: 22px 0 16px; align-items: center; }
+  .rail-fim { align-items: center; }
+  .tabs { align-items: center; gap: 6px; }
+  .tab {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 1.05rem;
+    padding: 0 10px;
+    text-align: center;
+  }
+  .tab[aria-current="page"] { font-size: 1.3rem; }
+  .theme { width: 40px; height: 40px; }
+  .main { padding: 22px 14px 120px; }
+}
