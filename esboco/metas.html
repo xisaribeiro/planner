@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metas e hábitos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Quicksand:wght@400;500;600&display=swap">
+<style>
+/* Layout: três telas em painéis, na ordem do uso: semana, metas, ano. Paleta pastel e fontes escolhidas pela Isabelle. */
+:root {
+  --bg:#F4F1EB; --card:#FBF9F5; --ink:#3B3834; --muted:#867F75; --line:#E6E0D5; --on-pastel:#3B3834;
+  --lilac:#CBC3E3; --sage:#C2D2BD; --blue:#C3D2E6; --rose:#E6C4C4; --butter:#EBDDA8; --peach:#F0CBAE; --coral:#EAB4A7;
+  --display:'Playfair Display', Georgia, serif;
+  --body:'Quicksand', system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg:#1F1E1C; --card:#292724; --ink:#ECE8DF; --muted:#A39D92; --line:#3A3733; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg:#1F1E1C; --card:#292724; --ink:#ECE8DF; --muted:#A39D92; --line:#3A3733; color-scheme: dark; }
+body { background:var(--bg); color:var(--ink); font-family:var(--body); font-size:15px; line-height:1.45; padding-inline:16px; }
+.wrap { max-width:980px; margin:0 auto; padding-block:40px 80px; }
+h1, h2 { font-family:var(--display); font-style:italic; font-weight:400; line-height:1.08; margin:0; text-wrap:balance; }
+h1 { font-size:clamp(2.6rem,8vw,4rem); }
+h2 { font-size:clamp(2rem,6vw,2.7rem); }
+h1 em, h2 em { color:var(--muted); }
+.lead { max-width:62ch; color:var(--muted); margin:12px 0 18px; }
+.anchors { display:flex; flex-wrap:wrap; gap:8px; }
+.anchors a { color:var(--ink); text-decoration:none; border:1px solid var(--line); background:var(--card); border-radius:999px; padding:.4rem 1rem; font-size:14px; }
+.anchors a:hover, .anchors a:focus-visible { background:var(--line); outline:none; }
+.screen { margin-top:52px; }
+.sub { max-width:64ch; color:var(--muted); margin:8px 0 16px; }
+.panel { background:var(--card); border:1px solid var(--line); border-radius:22px; padding:20px; }
+.lbl { font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0 0 8px; }
+.note { color:var(--muted); font-size:13px; margin:16px 0 0; max-width:64ch; }
+.note b { color:var(--ink); }
+
+/* hábitos da semana */
+.grp + .grp { border-top:1px solid var(--line); margin-top:14px; padding-top:14px; }
+.gh { display:flex; gap:10px; align-items:center; margin-bottom:6px; }
+.gh i { width:12px; height:12px; border-radius:50%; background:var(--hue); flex:none; }
+.gh h3 { font-size:15px; margin:0; font-weight:600; }
+.gh p { margin:0; font-size:12px; color:var(--muted); }
+.hab { display:grid; grid-template-columns:minmax(150px,1.2fr) minmax(230px,300px) 130px; grid-template-areas:"hl days hc"; gap:12px; align-items:center; padding-block:8px; }
+.hab + .hab { border-top:1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+.hl { grid-area:hl; min-width:0; } .days { grid-area:days; display:grid; grid-template-columns:repeat(7,1fr); gap:6px; justify-items:center; align-items:center; } .hc { grid-area:hc; text-align:right; }
+.hn { margin:0; font-weight:600; } .hf { margin:0; color:var(--muted); font-size:13px; }
+.hc b { display:block; font-weight:600; font-variant-numeric:tabular-nums; } .hc span { font-size:12px; color:var(--muted); }
+.dayhead { padding-block:0 2px; border-top:0 !important; }
+.dayhead .days span { font-size:11px; font-weight:600; color:var(--muted); width:100%; max-width:34px; text-align:center; padding-block:2px; border-radius:999px; }
+.dayhead .days span.tdy { background:var(--line); color:var(--ink); }
+.hab.met .hl, .hab.met .days { opacity:.55; }
+.cell { width:100%; max-width:34px; aspect-ratio:1; border-radius:50%; border:1.5px solid color-mix(in srgb, var(--muted) 45%, transparent); background:transparent; color:transparent; padding:0; display:grid; place-items:center; cursor:pointer; transition:background .15s, border-color .15s; font:inherit; }
+.cell svg { width:60%; height:60%; }
+.cell:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
+.cell.done { background:var(--hue); border-color:var(--hue); color:var(--on-pastel); }
+.cell.today { box-shadow:0 0 0 2px var(--card), 0 0 0 3.5px color-mix(in srgb, var(--ink) 45%, transparent); }
+.cell[data-miss="1"]:not(.done)::after { content:"×"; color:var(--muted); font-size:16px; line-height:1; }
+.cell.off { display:block; border:1.5px dashed var(--line); cursor:default; }
+.monthly .pillw { grid-area:days; display:flex; }
+.pill { padding:.25rem .9rem; border-radius:999px; background:color-mix(in srgb, var(--hue) 45%, var(--card)); font-size:13px; font-weight:500; }
+.legend { list-style:none; display:flex; flex-wrap:wrap; gap:8px 20px; margin:16px 0 0; padding:14px 0 0; border-top:1px solid var(--line); font-size:13px; color:var(--muted); }
+.legend li { display:flex; align-items:center; gap:8px; }
+.legend .cell { width:22px; max-width:22px; --hue:var(--blue); pointer-events:none; cursor:default; }
+
+/* metas */
+.fchips { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+.fchip { padding:.35rem .9rem; border-radius:999px; background:var(--ink); color:var(--bg); font-size:13px; font-weight:500; }
+.agrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr)); gap:14px; }
+.acard { background:var(--bg); border:1px solid var(--line); border-radius:16px; padding:16px; min-width:0; }
+.acard header { display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+.ring { width:46px; height:46px; flex:none; }
+.ring text { font-size:13px; font-weight:600; fill:var(--ink); font-family:var(--body); }
+.acard h3 { margin:0; font-size:16px; font-weight:600; }
+.acard header p { margin:0; font-size:12px; color:var(--muted); }
+.acard ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
+.mt { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+.mn { font-weight:500; }
+.mt b { margin-left:auto; font-variant-numeric:tabular-nums; font-weight:600; }
+.foco { font-size:11px; padding:.05rem .55rem; border-radius:999px; background:var(--ink); color:var(--bg); font-weight:500; }
+.bar { height:6px; border-radius:999px; background:color-mix(in srgb, var(--hue) 28%, var(--card)); margin:6px 0 4px; overflow:hidden; }
+.bar i { display:block; height:100%; border-radius:999px; background:var(--hue); }
+.ms { margin:0; font-size:12px; color:var(--muted); }
+
+/* visão do ano */
+.hero { margin-bottom:6px; }
+.big { font-size:3.4rem; font-weight:600; line-height:1; margin:4px 0 6px; }
+.dl { margin:0; color:var(--muted); }
+.scroll { overflow-x:auto; }
+.hmw { min-width:580px; display:flex; flex-direction:column; gap:4px; margin-top:18px; }
+.hr { display:grid; grid-template-columns:150px repeat(12,1fr) 52px; gap:4px; align-items:center; }
+.hhead span { font-size:11px; color:var(--muted); text-align:center; }
+.hrl { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; white-space:nowrap; }
+.hrl i { width:10px; height:10px; border-radius:50%; flex:none; }
+.hm { height:30px; border-radius:6px; display:grid; place-items:center; font-size:11px; font-variant-numeric:tabular-nums; font-weight:500; cursor:default; }
+.hm:focus-visible { outline:2px solid var(--ink); outline-offset:1px; }
+.hm.empty { background:transparent; border:1px dashed var(--line); }
+.hra { font-size:13px; text-align:right; font-variant-numeric:tabular-nums; font-weight:600; }
+.hhead .hra { font-size:11px; color:var(--muted); font-weight:400; }
+.lc { width:100%; height:auto; display:block; margin-top:6px; }
+.tk { font-size:11px; fill:var(--muted); font-family:var(--body); }
+.el { font-size:13px; font-weight:600; fill:var(--ink); font-family:var(--body); }
+.hit { cursor:pointer; outline:none; }
+.hit:focus-visible { stroke:var(--ink); stroke-width:1.5; }
+.igrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr)); gap:12px; }
+.ins { background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:14px; }
+.itag { display:inline-block; font-size:10.5px; letter-spacing:.09em; font-weight:600; padding:.15rem .65rem; border-radius:999px; color:var(--on-pastel); margin-bottom:8px; }
+.ins p { margin:0; line-height:1.5; }
+details { margin-top:16px; }
+summary { cursor:pointer; color:var(--muted); font-size:14px; }
+table { border-collapse:collapse; font-size:12px; margin-top:10px; min-width:560px; }
+th, td { padding:.3rem .5rem; text-align:right; font-variant-numeric:tabular-nums; border-bottom:1px solid var(--line); }
+th:first-child { text-align:left; font-weight:500; }
+thead th { color:var(--muted); font-weight:500; }
+#tip { position:fixed; z-index:20; padding:.35rem .65rem; border-radius:8px; background:var(--ink); color:var(--bg); font-size:12px; pointer-events:none; white-space:nowrap; }
+
+@media (max-width:600px) {
+  .hab { grid-template-columns:1fr auto; grid-template-areas:"hl hc" "days days"; row-gap:8px; }
+  .dayhead { grid-template-columns:1fr; grid-template-areas:"days"; }
+  .dayhead .hl, .dayhead .hc { display:none; }
+  .monthly .pillw { grid-area:days; }
+  .panel { padding:16px; }
+}
+@media (prefers-reduced-motion: reduce) { .cell { transition:none; } }
+
+/* visão do ano em palavras */
+.letter { font-size:1.2rem; line-height:1.65; max-width:60ch; margin:4px 0 24px; }
+.scards { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:12px; }
+.scard { background:var(--bg); border:1px solid var(--line); border-radius:16px; padding:14px 16px; min-width:0; }
+.scard header { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.scard header i { width:12px; height:12px; border-radius:50%; background:var(--hue); flex:none; }
+.scard h3 { margin:0; font-size:15px; font-weight:600; }
+.state { margin-left:auto; font-size:12px; font-weight:500; padding:.15rem .7rem; border-radius:999px; background:color-mix(in srgb, var(--hue) 38%, var(--card)); }
+.scard p { margin:8px 0 0; line-height:1.55; }
+
+</style>
+<div class="wrap">
+<header class="top">
+<h1>Metas <em>e hábitos</em></h1>
+<p class="lead">Esboço com dados de exemplo para entender como as peças se encaixam. Áreas, metas e hábitos são suposições até você confirmar.</p>
+<nav class="anchors" aria-label="Seções"><a href="#semana">Hábitos da semana</a><a href="#metas">Metas</a><a href="#ano">Visão do ano</a></nav>
+</header>
+
+<section id="semana" class="screen">
+<h2>Hábitos <em>da semana</em></h2>
+<p class="sub">A tabela do seu esboço da tela inicial, agrupada por meta. Exemplo de uma quarta-feira, 14 de outubro. Clique nas bolinhas para marcar.</p>
+<div class="panel">
+<section class="grp" style="--hue:var(--blue)">
+<header class="gh"><i></i><div><h3>Ficar mais saudável</h3><p>Saúde</p></div></header>
+<div class="hab dayhead" aria-hidden="true"><div class="hl"></div><div class="days"><span class="">D</span><span class="">S</span><span class="">T</span><span class="tdy">Q</span><span class="">Q</span><span class="">S</span><span class="">S</span></div><div class="hc"></div></div>
+<div class="hab" data-q="3" data-flex="1" data-rest="4" style="--hue:var(--blue)"><div class="hl"><p class="hn">Treinar</p><p class="hf">3 vezes por semana</p></div><div class="days"><button type="button" class="cell" aria-label="domingo" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell done" aria-label="segunda" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="terça" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell today" aria-label="quarta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="quinta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="sexta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="sábado" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="hc"><b>1 de 3</b><span>faltam 2 · restam 4 dias</span></div></div><div class="hab" data-q="7" data-flex="0" data-rest="4" style="--hue:var(--blue)"><div class="hl"><p class="hn">Beber 2 L de água</p><p class="hf">todo dia</p></div><div class="days"><button type="button" class="cell done" data-miss="1" aria-label="domingo" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" data-miss="1" aria-label="segunda" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell done" data-miss="1" aria-label="terça" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell today" aria-label="quarta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="quinta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="sexta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="sábado" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="hc"><b>2 de 7</b><span>faltam 5</span></div></div><div class="hab" data-q="7" data-flex="0" data-rest="4" style="--hue:var(--blue)"><div class="hl"><p class="hn">Dormir antes da meia-noite</p><p class="hf">todo dia</p></div><div class="days"><button type="button" class="cell done" data-miss="1" aria-label="domingo" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell done" data-miss="1" aria-label="segunda" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" data-miss="1" aria-label="terça" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell today" aria-label="quarta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="quinta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="sexta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="sábado" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="hc"><b>2 de 7</b><span>faltam 5</span></div></div>
+</section><section class="grp" style="--hue:var(--peach)">
+<header class="gh"><i></i><div><h3>Estudar inglês</h3><p>Desenvolvimento</p></div></header>
+<div class="hab dayhead" aria-hidden="true"><div class="hl"></div><div class="days"><span class="">D</span><span class="">S</span><span class="">T</span><span class="tdy">Q</span><span class="">Q</span><span class="">S</span><span class="">S</span></div><div class="hc"></div></div>
+<div class="hab" data-q="3" data-flex="0" data-rest="4" style="--hue:var(--peach)"><div class="hl"><p class="hn">Estudar 30 minutos</p><p class="hf">segunda, quarta e sexta</p></div><div class="days"><span class="cell off" aria-hidden="true"></span><button type="button" class="cell done" aria-label="segunda" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="cell off" aria-hidden="true"></span><button type="button" class="cell today" aria-label="quarta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="cell off" aria-hidden="true"></span><button type="button" class="cell" aria-label="sexta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="cell off" aria-hidden="true"></span></div><div class="hc"><b>1 de 3</b><span>faltam 2</span></div></div>
+</section><section class="grp" style="--hue:var(--butter)">
+<header class="gh"><i></i><div><h3>Ler 12 livros no ano</h3><p>Lazer</p></div></header>
+<div class="hab dayhead" aria-hidden="true"><div class="hl"></div><div class="days"><span class="">D</span><span class="">S</span><span class="">T</span><span class="tdy">Q</span><span class="">Q</span><span class="">S</span><span class="">S</span></div><div class="hc"></div></div>
+<div class="hab" data-q="5" data-flex="1" data-rest="4" style="--hue:var(--butter)"><div class="hl"><p class="hn">Ler 20 páginas</p><p class="hf">5 vezes por semana</p></div><div class="days"><button type="button" class="cell done" aria-label="domingo" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell done" aria-label="segunda" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="terça" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell today" aria-label="quarta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="quinta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="sexta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="sábado" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="hc"><b>2 de 5</b><span>faltam 3 · restam 4 dias</span></div></div>
+</section><section class="grp" style="--hue:var(--sage)">
+<header class="gh"><i></i><div><h3>Investir todo mês</h3><p>Finanças</p></div></header>
+<div class="hab dayhead" aria-hidden="true"><div class="hl"></div><div class="days"><span class="">D</span><span class="">S</span><span class="">T</span><span class="tdy">Q</span><span class="">Q</span><span class="">S</span><span class="">S</span></div><div class="hc"></div></div>
+<div class="hab met" data-q="1" data-flex="1" data-rest="4" style="--hue:var(--sage)"><div class="hl"><p class="hn">Registrar os gastos da semana</p><p class="hf">1 vez por semana</p></div><div class="days"><button type="button" class="cell done" aria-label="domingo" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="segunda" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="terça" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell today" aria-label="quarta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="quinta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="sexta" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="cell" aria-label="sábado" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="hc"><b>1 de 1</b><span>feito</span></div></div><div class="hab monthly" style="--hue:var(--sage)"><div class="hl"><p class="hn">Fazer o aporte do mês</p><p class="hf">1 vez por mês</p></div><div class="pillw"><span class="pill">feito em 5/10</span></div><div class="hc"><b>1 de 1</b><span>feito</span></div></div>
+</section>
+<ul class="legend" aria-label="Legenda">
+<li><span class="cell done lg"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>feito</li>
+<li><span class="cell lg"></span>pendente</li>
+<li><span class="cell lg" data-miss="1"></span>dia perdido, só em hábito diário</li>
+<li><span class="cell off lg"></span>não é dia desse hábito</li>
+</ul>
+</div>
+</section>
+
+<section id="metas" class="screen">
+<h2>Metas</h2>
+<p class="sub">Cada meta mostra o progresso, o prazo e quantos hábitos a sustentam. Metas com número, como ler 12 livros, são atualizadas por você.</p>
+<div class="panel">
+<p class="lbl">Foco do trimestre</p>
+<div class="fchips"><span class="fchip">Ficar mais saudável</span><span class="fchip">Ler 12 livros no ano</span><span class="fchip">Estudar inglês</span></div>
+<div class="agrid"><article class="acard" style="--hue:var(--lilac)"><header><svg class="ring" viewBox="0 0 44 44" role="img" aria-label="54 por cento"><circle cx="22" cy="22" r="18" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--lilac)" stroke-width="4" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="52.0" transform="rotate(-90 22 22)"/><text x="22" y="26" text-anchor="middle">54</text></svg><div><h3>Carreira</h3><p>2 metas</p></div></header><ul><li><div class="mt"><span class="mn">Subir de nível no estágio</span><b>68%</b></div><div class="bar"><i style="width:68%"></i></div><p class="ms">3 hábitos · até dez/26</p></li><li><div class="mt"><span class="mn">Concluir um curso</span><b>40%</b></div><div class="bar"><i style="width:40%"></i></div><p class="ms">2 de 5 módulos · até nov/26</p></li></ul></article><article class="acard" style="--hue:var(--sage)"><header><svg class="ring" viewBox="0 0 44 44" role="img" aria-label="79 por cento"><circle cx="22" cy="22" r="18" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--sage)" stroke-width="4" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="23.8" transform="rotate(-90 22 22)"/><text x="22" y="26" text-anchor="middle">79</text></svg><div><h3>Finanças</h3><p>2 metas</p></div></header><ul><li><div class="mt"><span class="mn">Reserva de emergência</span><b>75%</b></div><div class="bar"><i style="width:75%"></i></div><p class="ms">6 de 8 depósitos · até dez/26</p></li><li><div class="mt"><span class="mn">Investir todo mês</span><b>83%</b></div><div class="bar"><i style="width:83%"></i></div><p class="ms">1 hábito · até dez/26</p></li></ul></article><article class="acard" style="--hue:var(--blue)"><header><svg class="ring" viewBox="0 0 44 44" role="img" aria-label="63 por cento"><circle cx="22" cy="22" r="18" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--blue)" stroke-width="4" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="41.8" transform="rotate(-90 22 22)"/><text x="22" y="26" text-anchor="middle">63</text></svg><div><h3>Saúde</h3><p>2 metas</p></div></header><ul><li><div class="mt"><span class="mn">Ficar mais saudável</span><span class="foco">foco</span><b>74%</b></div><div class="bar"><i style="width:74%"></i></div><p class="ms">3 hábitos · até dez/26</p></li><li><div class="mt"><span class="mn">Dormir melhor</span><b>52%</b></div><div class="bar"><i style="width:52%"></i></div><p class="ms">1 hábito · até dez/26</p></li></ul></article><article class="acard" style="--hue:var(--rose)"><header><svg class="ring" viewBox="0 0 44 44" role="img" aria-label="85 por cento"><circle cx="22" cy="22" r="18" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--rose)" stroke-width="4" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="17.0" transform="rotate(-90 22 22)"/><text x="22" y="26" text-anchor="middle">85</text></svg><div><h3>Relações</h3><p>2 metas</p></div></header><ul><li><div class="mt"><span class="mn">Ver as amigas toda semana</span><b>80%</b></div><div class="bar"><i style="width:80%"></i></div><p class="ms">1 hábito · até dez/26</p></li><li><div class="mt"><span class="mn">Ligar para a família</span><b>90%</b></div><div class="bar"><i style="width:90%"></i></div><p class="ms">1 hábito · até dez/26</p></li></ul></article><article class="acard" style="--hue:var(--butter)"><header><svg class="ring" viewBox="0 0 44 44" role="img" aria-label="46 por cento"><circle cx="22" cy="22" r="18" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--butter)" stroke-width="4" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="61.6" transform="rotate(-90 22 22)"/><text x="22" y="26" text-anchor="middle">46</text></svg><div><h3>Lazer</h3><p>2 metas</p></div></header><ul><li><div class="mt"><span class="mn">Ler 12 livros no ano</span><span class="foco">foco</span><b>58%</b></div><div class="bar"><i style="width:58%"></i></div><p class="ms">7 de 12 livros · até dez/26</p></li><li><div class="mt"><span class="mn">Um programa por mês</span><b>33%</b></div><div class="bar"><i style="width:33%"></i></div><p class="ms">1 hábito · até dez/26</p></li></ul></article><article class="acard" style="--hue:var(--peach)"><header><svg class="ring" viewBox="0 0 44 44" role="img" aria-label="56 por cento"><circle cx="22" cy="22" r="18" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--peach)" stroke-width="4" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="49.8" transform="rotate(-90 22 22)"/><text x="22" y="26" text-anchor="middle">56</text></svg><div><h3>Desenvolvimento</h3><p>2 metas</p></div></header><ul><li><div class="mt"><span class="mn">Estudar inglês</span><span class="foco">foco</span><b>62%</b></div><div class="bar"><i style="width:62%"></i></div><p class="ms">1 hábito · até dez/26</p></li><li><div class="mt"><span class="mn">Fazer 2 cursos no semestre</span><b>50%</b></div><div class="bar"><i style="width:50%"></i></div><p class="ms">1 de 2 cursos · até dez/26</p></li></ul></article></div>
+<p class="note">Progresso geral: <b>64%</b>, a média das seis áreas.</p>
+</div>
+</section>
+
+<section id="ano" class="screen">
+<h2>Visão <em>do ano</em></h2>
+<p class="sub">Um retrato em palavras, sem gráficos. O planner escreve sozinho, a partir dos seus hábitos, com frases já prontas dentro dele.</p>
+<div class="panel">
+<p class="lbl">Seu ano até aqui</p>
+<p class="letter">Neste ano, o que mais avançou foi Saúde. Em Finanças e Relações, você segue firme. Lazer é o que mais pede atenção agora, e ficou de lado desde junho. No geral, você está um pouco melhor do que no começo do ano. Talvez valha pôr Lazer no foco do próximo trimestre.</p>
+<div class="scards"><article class="scard" style="--hue:var(--lilac)"><header><i></i><h3>Carreira</h3><span class="state">seguindo o ritmo</span></header><p>Em Carreira, tudo segue no seu ritmo. Sem grandes mudanças nos últimos meses, e está tudo bem.</p></article><article class="scard" style="--hue:var(--sage)"><header><i></i><h3>Finanças</h3><span class="state">firme</span></header><p>Em Finanças, você está firme. O ritmo se mantém há meses e já virou parte da rotina.</p></article><article class="scard" style="--hue:var(--blue)"><header><i></i><h3>Saúde</h3><span class="state">em boa fase</span></header><p>Em Saúde, você está numa boa fase. Nos últimos meses você vem fazendo mais do que antes.</p></article><article class="scard" style="--hue:var(--rose)"><header><i></i><h3>Relações</h3><span class="state">firme</span></header><p>Em Relações, você está firme. O ritmo se mantém há meses e já virou parte da rotina.</p></article><article class="scard" style="--hue:var(--butter)"><header><i></i><h3>Lazer</h3><span class="state">pedindo atenção</span></header><p>Em Lazer, as coisas ficaram um pouco de lado nos últimos meses. Vale olhar com carinho e pensar em algo mais leve.</p></article><article class="scard" style="--hue:var(--peach)"><header><i></i><h3>Desenvolvimento</h3><span class="state">em boa fase</span></header><p>Em Desenvolvimento, você está numa boa fase. Nos últimos meses você vem fazendo mais do que antes.</p></article></div>
+<p class="note">Não usa o Claude e não mostra números. Mês, trimestre e semestre seguem o mesmo desenho.</p>
+</div>
+</section>
+</div>
+<div id="tip" role="tooltip" hidden></div>
+<script>
+(function () {
+  function update(row) {
+    var n = row.querySelectorAll('.cell.done').length;
+    var q = +row.dataset.q, rest = +row.dataset.rest, flex = row.dataset.flex === '1';
+    row.querySelector('.hc b').textContent = n + ' de ' + q;
+    row.querySelector('.hc span').textContent = n >= q ? 'feito' : (flex ? 'faltam ' + (q - n) + ' · restam ' + rest + ' dias' : 'faltam ' + (q - n));
+    row.classList.toggle('met', n >= q);
+  }
+  document.querySelectorAll('.hab[data-q]').forEach(function (row) {
+    row.querySelectorAll('button.cell').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var on = b.classList.toggle('done');
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        update(row);
+      });
+    });
+  });
+  var tip = document.getElementById('tip');
+  function show(el) {
+    tip.textContent = el.getAttribute('data-tip');
+    tip.hidden = false;
+    var r = el.getBoundingClientRect();
+    var left = r.left + r.width / 2 - tip.offsetWidth / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - tip.offsetWidth - 8));
+    var top = r.top - tip.offsetHeight - 8;
+    if (top < 8) top = r.bottom + 8;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function hide() { tip.hidden = true; }
+  document.querySelectorAll('[data-tip]').forEach(function (el) {
+    el.addEventListener('pointerenter', function () { show(el); });
+    el.addEventListener('pointerleave', hide);
+    el.addEventListener('focus', function () { show(el); });
+    el.addEventListener('blur', hide);
+  });
+})();
+
+</script>
+<style>
+[hidden]{display:none!important} html{color-scheme:light} body{margin:0}
+.pl-rail{position:fixed;left:0;top:0;bottom:0;width:168px;z-index:30;display:flex;flex-direction:column;justify-content:space-between;padding:34px 14px 22px 22px;border-right:1px solid var(--line);background:var(--bg);box-sizing:border-box}
+.pl-tabs{display:flex;flex-direction:column;gap:10px}
+.pl-tab{display:block;font-family:var(--display);font-style:italic;font-size:1.2rem;line-height:1.2;color:var(--muted);text-decoration:none;padding:4px 0}
+.pl-tab:hover{color:var(--ink)} .pl-tab[aria-current="page"]{color:var(--ink);font-size:1.5rem}
+.pl-tab small{display:block;font-family:var(--body);font-style:normal;font-size:10.5px;letter-spacing:.04em}
+.pl-tab:focus-visible,.pl-theme:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.pl-theme{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0}
+.pl-theme svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+body{padding-left:calc(168px + 16px)!important}
+@media (max-width:820px){
+ .pl-rail{width:50px;padding:22px 0 16px;align-items:center}
+ .pl-tabs{align-items:center;gap:14px}
+ .pl-tab{writing-mode:vertical-rl;transform:rotate(180deg);font-size:1.05rem;padding:0;text-align:center}
+ .pl-tab[aria-current="page"]{font-size:1.3rem} .pl-tab small{display:none}
+ body{padding-left:calc(50px + 12px)!important;padding-right:12px!important}
+}
+</style>
+<nav class="pl-rail" aria-label="Abas"><div class="pl-tabs"><a class="pl-tab" href="index.html">Hoje</a><a class="pl-tab" href="faculdade.html">Faculdade</a><a class="pl-tab" href="metas.html" aria-current="page">Metas</a><a class="pl-tab" href="wishlist.html">Wishlist</a><a class="pl-tab" href="repertorio.html">Repertório</a><a class="pl-tab" href="cursos.html">Cursos</a></div><button id="pl-theme" class="pl-theme" type="button" aria-label="Alternar modo claro e escuro"></button></nav>
+<script>
+(function(){var r=document.documentElement,k='pl-theme';try{var s=localStorage.getItem(k);if(s)r.dataset.theme=s}catch(e){}
+var SUN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg>',MOON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>';
+function dark(){return r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches}
+var b=document.getElementById('pl-theme');function icon(){b.innerHTML=dark()?SUN:MOON}
+b.addEventListener('click',function(){var n=dark()?'light':'dark';r.dataset.theme=n;try{localStorage.setItem(k,n)}catch(e){}icon()});icon();})();
+</script>

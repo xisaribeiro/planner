@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repertório do planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Quicksand:wght@400;500;600&display=swap">
+<style>
+/* Livros, filmes e séries. Quero / lendo / feito de um lado, já consumidos por faixa de nota do outro. No celular, alternância entre os estados. */
+:root {
+  --bg:#F4F1EB; --card:#FBF9F5; --ink:#3B3834; --muted:#867F75; --line:#E6E0D5; --on-pastel:#3B3834;
+  --lilac:#CBC3E3; --sage:#C2D2BD; --blue:#C3D2E6; --peach:#F0CBAE; --butter:#EBDDA8; --rose:#E6C4C4; --coral:#EAB4A7;
+  --display:'Playfair Display', Georgia, serif;
+  --body:'Quicksand', system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg:#1F1E1C; --card:#292724; --ink:#ECE8DF; --muted:#A39D92; --line:#3A3733; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg:#1F1E1C; --card:#292724; --ink:#ECE8DF; --muted:#A39D92; --line:#3A3733; color-scheme: dark; }
+[hidden]{display:none!important}
+body { background:var(--bg); color:var(--ink); font-family:var(--body); font-size:15px; line-height:1.45; padding-inline:16px; }
+.wrap { max-width:1080px; margin:0 auto; padding-block:36px 80px; }
+h1, h2 { font-family:var(--display); font-style:italic; font-weight:400; line-height:1.08; margin:0; text-wrap:balance; }
+h1 { font-size:clamp(2.8rem,9vw,4.2rem); }
+h2 { font-size:clamp(1.7rem,5.5vw,2.1rem); }
+h2 em { color:var(--muted); }
+.head { display:flex; align-items:flex-end; justify-content:space-between; gap:12px 20px; flex-wrap:wrap; }
+.resumo { margin:6px 0 0; color:var(--muted); }
+.btn { font:inherit; font-weight:600; font-size:14px; color:var(--bg); background:var(--ink); border:0; border-radius:999px; padding:.55rem 1.2rem; cursor:pointer; }
+.btn.ghost { background:transparent; color:var(--ink); border:1px solid var(--line); }
+.btn.small { font-size:13px; padding:.3rem .85rem; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
+.seg { display:flex; gap:6px; background:var(--card); border:1px solid var(--line); border-radius:999px; padding:4px; }
+.seg button { flex:1; font:inherit; font-weight:600; font-size:14px; color:var(--muted); background:transparent; border:0; border-radius:999px; padding:.5rem 1rem; cursor:pointer; }
+.seg button[aria-selected="true"] { background:var(--ink); color:var(--bg); }
+.cats { margin-top:22px; max-width:560px; }
+.status { display:none; margin-top:12px; }
+.form { margin-top:18px; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:16px; display:grid; gap:12px; }
+.form .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:560px) { .form .row { grid-template-columns:1fr; } }
+label.f { display:grid; gap:4px; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+input[type="text"], input[type="number"], input[type="date"], textarea { font:inherit; font-size:15px; letter-spacing:0; text-transform:none; font-weight:500; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:.55rem .8rem; width:100%; min-width:0; box-sizing:border-box; }
+textarea { resize:vertical; min-height:70px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; }
+.chips label { display:flex; align-items:center; gap:7px; border:1px solid var(--line); background:var(--bg); border-radius:999px; padding:.35rem .9rem; cursor:pointer; font-size:14px; }
+.chips input { accent-color:var(--ink); }
+.actions { display:flex; gap:8px; flex-wrap:wrap; }
+.msg { min-height:1.4em; margin:12px 0 0; color:var(--muted); font-weight:500; }
+.cols { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:48px; margin-top:8px; align-items:start; }
+.col { display:flex; flex-direction:column; gap:34px; min-width:0; }
+.lista { list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.item { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:12px 14px; display:grid; grid-template-columns:auto 1fr; gap:4px 14px; align-items:center; }
+.item.nochk { grid-template-columns:1fr; }
+.chk { width:28px; height:28px; border-radius:50%; border:1.5px solid color-mix(in srgb, var(--muted) 55%, transparent); background:transparent; cursor:pointer; padding:0; display:grid; place-items:center; color:transparent; transition:background .15s, color .15s; }
+.chk:hover { background:color-mix(in srgb, var(--sage) 55%, transparent); color:var(--on-pastel); }
+.chk svg { width:62%; height:62%; }
+.info { min-width:0; }
+.nm { margin:0; font-weight:600; font-size:16px; overflow-wrap:anywhere; }
+.au { margin:0; color:var(--muted); font-size:14px; overflow-wrap:anywhere; }
+.sub { margin-top:6px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.desde { font-size:12px; color:var(--muted); }
+.buy { grid-column:1 / -1; border-top:1px solid var(--line); margin-top:8px; padding-top:12px; display:grid; gap:10px; }
+.buy .r2 { display:grid; grid-template-columns:130px 1fr; gap:10px; }
+@media (max-width:480px) { .buy .r2 { grid-template-columns:1fr; } }
+.empty { color:var(--muted); padding:10px 2px; margin:0; }
+.band { margin-top:14px; }
+.band:first-of-type { margin-top:12px; }
+.band h3 { margin:0; display:flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+.band h3 i { width:10px; height:10px; border-radius:50%; background:var(--c); }
+.band .lista { margin-top:8px; }
+.done { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:12px 14px; display:grid; grid-template-columns:1fr auto; gap:2px 14px; cursor:pointer; text-align:left; font:inherit; color:inherit; width:100%; }
+.done .nota { grid-row:1 / span 2; grid-column:2; align-self:start; font-family:var(--display); font-style:italic; font-size:1.9rem; line-height:1; padding:.35rem .7rem; border-radius:14px; background:color-mix(in srgb, var(--c) 45%, var(--card)); font-variant-numeric:tabular-nums; }
+.done .when { font-size:12px; color:var(--muted); }
+.done .res { grid-column:1 / -1; margin:6px 0 0; color:var(--muted); font-size:14px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.done.open .res { display:block; overflow:visible; }
+.heart { position:absolute; right:10px; bottom:8px; width:34px; height:34px; border:0; background:transparent; border-radius:50%; cursor:pointer; padding:0; display:grid; place-items:center; color:var(--muted); }
+.heart svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linejoin:round; }
+.heart[aria-pressed="true"] { color:#C9776A; }
+.heart[aria-pressed="true"] svg { fill:currentColor; }
+.heart:hover { background:color-mix(in srgb, var(--coral) 35%, transparent); }
+.lista > li { position:relative; }
+.done { padding-bottom:30px; }
+.cats button { white-space:nowrap; padding-inline:.4rem; }
+.seg button svg { width:13px; height:13px; vertical-align:-1px; margin-right:5px; fill:currentColor; }
+.cols.single { grid-template-columns:1fr; }
+.favgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:36px 40px; }
+.favgrid section { min-width:0; }
+.favitem { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:12px 14px 12px; display:grid; grid-template-columns:1fr auto; gap:2px 12px; align-items:start; }
+.favitem .nota { font-family:var(--display); font-style:italic; font-size:1.5rem; line-height:1; padding:.3rem .6rem; border-radius:12px; background:color-mix(in srgb, var(--c) 45%, var(--card)); }
+.favitem .res { grid-column:1 / -1; margin:6px 0 0; color:var(--muted); font-size:14px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.favitem { padding-right:14px; }
+.favitem .heart { position:static; width:30px; height:30px; grid-column:1; justify-self:start; margin:2px 0 0 -6px; }
+.note { margin-top:40px; color:var(--muted); font-size:13px; max-width:62ch; }
+@media (max-width:860px) {
+  .cols { grid-template-columns:1fr; gap:0; }
+  .status { display:flex; }
+  .col { gap:0; }
+  .col > section[data-off="1"] { display:none; }
+}
+@media (prefers-reduced-motion: reduce) { .chk { transition:none; } }
+</style>
+<div class="wrap">
+<header class="head">
+<div><h1>Repertório</h1><p id="resumo" class="resumo"></p></div>
+<button id="novo" class="btn" type="button" aria-expanded="false" aria-controls="form">+ adicionar</button>
+</header>
+
+<div class="seg cats" id="cats" role="tablist" aria-label="Categoria">
+<button type="button" role="tab" data-cat="livros" aria-selected="true">Livros</button>
+<button type="button" role="tab" data-cat="filmes" aria-selected="false">Filmes</button>
+<button type="button" role="tab" data-cat="series" aria-selected="false">Séries</button>
+<button type="button" role="tab" data-cat="favs" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>Favoritos</button>
+</div>
+
+<form id="form" class="form" hidden>
+<div class="row">
+<label class="f" for="f-nome"><span id="f-nome-l">Nome do livro</span><input id="f-nome" type="text" autocomplete="off" required></label>
+<label class="f" id="f-au-w" for="f-au">Autor<input id="f-au" type="text" autocomplete="off" placeholder="opcional"></label>
+</div>
+<div id="f-st-w">
+<span style="display:block;margin-bottom:6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600">Onde entra</span>
+<div class="chips" role="radiogroup" aria-label="Onde entra">
+<label><input type="radio" name="st" value="quero" checked><span id="chip-quero">Quero ler</span></label>
+<label><input type="radio" name="st" value="lendo"><span id="chip-lendo">Lendo agora</span></label>
+</div>
+</div>
+<div class="actions"><button class="btn" type="submit">Adicionar</button><button id="cancelar" class="btn ghost" type="button">Cancelar</button></div>
+</form>
+
+<div class="seg status" id="status" role="tablist" aria-label="Estado"></div>
+<p id="msg" class="msg" aria-live="polite"></p>
+
+<div class="cols">
+<div class="col" id="col-a"></div>
+<div class="col" id="col-b"></div>
+</div>
+
+<p class="note">Esboço com dados de exemplo. Escolha entre Livros, Filmes e Séries, dê o check em um item, coloque nota e resumo, e veja ele entrar na faixa certa. Toque em um item já concluído para ler o resumo inteiro, e no coração para mandá-lo aos Favoritos.</p>
+</div>
+<script>
+(function () {
+  var TODAY_ISO = '2026-10-11';
+  var ALTA = 8, MEDIA = 6;
+  var CFG = {
+    livros: { label:'Livros', one:'livro', states:['lendo','quero','feito'], names:{ lendo:'Lendo agora', quero:'Quero ler', feito:'Já li' }, start:'Comecei a ler', startMsg:'Boa leitura.', since:'começou em', s1:'livro lido', sp:'livros lidos', nameLabel:'Nome do livro', author:true },
+    filmes: { label:'Filmes', one:'filme', states:['quero','feito'], names:{ quero:'Quero ver', feito:'Já vi' }, s1:'filme visto', sp:'filmes vistos', nameLabel:'Nome do filme', author:false },
+    series: { label:'Séries', one:'série', states:['lendo','quero','feito'], names:{ lendo:'Vendo agora', quero:'Quero ver', feito:'Já vi' }, start:'Comecei a ver', startMsg:'Boa maratona.', since:'começou em', s1:'série vista', sp:'séries vistas', nameLabel:'Nome da série', author:false }
+  };
+  var BANDS = [
+    { k:'alta', label:'Notas altas', c:'--sage' },
+    { k:'media', label:'Notas médias', c:'--butter' },
+    { k:'baixa', label:'Notas baixas', c:'--rose' }
+  ];
+  var nextId = 100;
+  var data = {
+    livros: [
+      { id:1, name:'Grande Sertão: Veredas', author:'João Guimarães Rosa', st:'lendo', since:'2026-10-02' },
+      { id:2, name:'A Casa dos Espíritos', author:'Isabel Allende', st:'quero' },
+      { id:3, name:'Dom Casmurro', author:'Machado de Assis', st:'quero' },
+      { id:4, name:'O Conde de Monte Cristo', author:'Alexandre Dumas', st:'feito', nota:10, date:'2026-09-28', fav:true, resumo:'Longo, mas cada capítulo vale a pena. A vingança é paciente e o final me deixou sem palavras.' },
+      { id:5, name:'Frankenstein', author:'Mary Shelley', st:'feito', nota:9, date:'2026-08-30', fav:true, resumo:'Muito mais triste e mais filosófico do que eu imaginava. A criatura é o melhor personagem.' },
+      { id:6, name:'O Retrato de Dorian Gray', author:'Oscar Wilde', st:'feito', nota:8.5, date:'2026-07-21', resumo:'Frases brilhantes e uma história que não envelhece.' },
+      { id:7, name:'O Morro dos Ventos Uivantes', author:'Emily Brontë', st:'feito', nota:7, date:'2026-06-14', resumo:'Gostei da atmosfera, mas os personagens me cansaram na metade.' },
+      { id:8, name:'Um livro que não me pegou', author:'Autor de exemplo', st:'feito', nota:4.5, date:'2026-05-09', resumo:'Abandonei no meio e terminei só por teimosia. Não foi para mim.' }
+    ],
+    filmes: [
+      { id:21, name:'Ainda Estou Aqui', st:'quero' },
+      { id:22, name:'Cidade de Deus', st:'quero' },
+      { id:23, name:'Jules e Jim', st:'quero' },
+      { id:24, name:'Parasita', st:'feito', nota:9.5, date:'2026-09-14', fav:true, resumo:'Começa como comédia e termina como outra coisa completamente diferente. Perfeito.' },
+      { id:25, name:'Barbie', st:'feito', nota:7, date:'2026-08-02', resumo:'Divertido e mais inteligente do que parece, mas se perde um pouco no final.' }
+    ],
+    series: [
+      { id:30, name:'Dark', st:'lendo', since:'2026-10-05' },
+      { id:31, name:'The Crown', st:'quero' },
+      { id:32, name:'Fleabag', st:'quero' },
+      { id:33, name:'Succession', st:'feito', nota:9, date:'2026-09-02', fav:true, resumo:'Gente horrível e impossível de parar de assistir. Os diálogos são um espetáculo.' },
+      { id:34, name:'Uma série qualquer', st:'feito', nota:5, date:'2026-07-11', resumo:'Começou bem, mas esticaram demais.' }
+    ]
+  };
+  var cat = 'livros', st = 'lendo', openForm = null;
+  var FRASES = ['Mais um para a estante.', 'Anotado, com carinho.', 'Boa escolha de leitura.', 'Registrado.'];
+  var CHECK = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
+  var colA = document.getElementById('col-a'), colB = document.getElementById('col-b');
+  var msg = document.getElementById('msg'), resumo = document.getElementById('resumo');
+  var form = document.getElementById('form'), novo = document.getElementById('novo'), statusEl = document.getElementById('status');
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function fmtNota(n) { return (Math.round(n * 10) / 10).toString().replace('.', ','); }
+  function band(n) { return n >= ALTA ? 'alta' : n >= MEDIA ? 'media' : 'baixa'; }
+  function fmtDate(iso) { var p = iso.split('-'); return p[2] + '/' + p[1]; }
+  function plural(n, s, p) { return n + ' ' + (n === 1 ? s : p); }
+
+  function renderResumo() {
+    if (cat === 'favs') {
+      var f = function (k) { return data[k].filter(function (i) { return i.fav; }).length; };
+      var total = f('livros') + f('filmes') + f('series');
+      resumo.textContent = total ? 'Seus favoritos: ' + plural(f('livros'), 'livro', 'livros') + ', ' + plural(f('filmes'), 'filme', 'filmes') + ' e ' + plural(f('series'), 'série', 'séries') + '.' : 'Ainda sem favoritos. Toque no coração de algo que você já viu ou leu.';
+      return;
+    }
+    var c = CFG[cat], items = data[cat];
+    var feitos = items.filter(function (i) { return i.st === 'feito'; }).length;
+    var fila = items.filter(function (i) { return i.st === 'quero'; }).length;
+    var lendo = items.filter(function (i) { return i.st === 'lendo'; }).length;
+    var t = 'Neste ano: ' + plural(feitos, c.s1, c.sp);
+    if (lendo) t += ', ' + lendo + ' em andamento';
+    t += fila ? ', ' + fila + ' na fila.' : '.';
+    resumo.textContent = t;
+  }
+
+  function section(title, em) {
+    var s = document.createElement('section');
+    var h = document.createElement('h2'); h.appendChild(document.createTextNode(title + ' ')); h.appendChild(el('em', null, em)); s.appendChild(h);
+    return s;
+  }
+
+  function buyPanel(it, onOk) {
+    var buy = el('div', 'buy'); buy.hidden = true;
+    var r2 = el('div', 'r2');
+    var lN = el('label', 'f', 'Sua nota'); var iN = document.createElement('input'); iN.type = 'number'; iN.min = '0'; iN.max = '10'; iN.step = '0.5'; iN.placeholder = '0 a 10'; iN.setAttribute('aria-label', 'Nota de 0 a 10'); lN.appendChild(iN);
+    var lD = el('label', 'f', 'Data'); var iD = document.createElement('input'); iD.type = 'date'; iD.value = TODAY_ISO; lD.appendChild(iD);
+    r2.appendChild(lN); r2.appendChild(lD);
+    var lR = el('label', 'f', 'O que você achou'); var iR = document.createElement('textarea'); iR.placeholder = 'Um resumo curto, do seu jeito'; lR.appendChild(iR);
+    var act = el('div', 'actions'); var ok = el('button', 'btn', 'Confirmar'); ok.type = 'button'; var no = el('button', 'btn ghost', 'Ainda não'); no.type = 'button';
+    act.appendChild(ok); act.appendChild(no);
+    buy.appendChild(r2); buy.appendChild(lR); buy.appendChild(act);
+    ok.addEventListener('click', function () {
+      var n = parseFloat(iN.value);
+      if (isNaN(n) || n < 0 || n > 10) { iN.focus(); iN.style.borderColor = 'var(--coral)'; return; }
+      onOk(n, iD.value || TODAY_ISO, iR.value.trim());
+    });
+    no.addEventListener('click', function () { buy.hidden = true; });
+    return { buy: buy, focus: iN };
+  }
+
+  function card(it) {
+    var c = CFG[cat];
+    var li = el('li', 'item' + (it.st === 'quero' && c.states.indexOf('lendo') >= 0 ? ' nochk' : ''));
+    var info = el('div', 'info');
+    info.appendChild(el('p', 'nm', it.name));
+    if (c.author && it.author) info.appendChild(el('p', 'au', it.author));
+    if (it.st === 'lendo') info.appendChild(el('p', 'desde', c.since + ' ' + fmtDate(it.since)));
+    var bp = null;
+    if (it.st === 'quero' && c.states.indexOf('lendo') >= 0) {
+      var sub = el('div', 'sub'); var b = el('button', 'btn ghost small', c.start); b.type = 'button';
+      b.addEventListener('click', function () { it.st = 'lendo'; it.since = TODAY_ISO; msg.textContent = c.startMsg; st = 'lendo'; renderAll(); });
+      sub.appendChild(b); info.appendChild(sub);
+      li.appendChild(info); return li;
+    }
+    var chk = el('button', 'chk'); chk.type = 'button'; chk.setAttribute('aria-label', 'Marcar como concluído: ' + it.name); chk.innerHTML = CHECK;
+    bp = buyPanel(it, function (n, d, r) {
+      it.st = 'feito'; it.nota = n; it.date = d; it.resumo = r; delete it.since;
+      msg.textContent = FRASES[Math.floor(Math.random() * FRASES.length)];
+      st = 'feito'; renderAll();
+    });
+    chk.addEventListener('click', function () { bp.buy.hidden = !bp.buy.hidden; if (!bp.buy.hidden) bp.focus.focus(); });
+    li.appendChild(chk); li.appendChild(info); li.appendChild(bp.buy);
+    return li;
+  }
+
+  function heartBtn(it, cls) {
+    var h = el('button', 'heart'); h.type = 'button'; h.innerHTML = HEART;
+    function sync() { h.setAttribute('aria-pressed', it.fav ? 'true' : 'false'); h.setAttribute('aria-label', (it.fav ? 'Tirar dos favoritos: ' : 'Favoritar: ') + it.name); }
+    sync();
+    h.addEventListener('click', function (e) { e.stopPropagation(); it.fav = !it.fav; msg.textContent = it.fav ? 'Foi para os favoritos.' : ''; if (cat === 'favs') renderAll(); else sync(); });
+    return h;
+  }
+
+  function doneCard(it) {
+    var b = BANDS.filter(function (x) { return x.k === band(it.nota); })[0];
+    var btn = el('button', 'done'); btn.type = 'button'; btn.style.setProperty('--c', 'var(' + b.c + ')');
+    btn.setAttribute('aria-expanded', 'false');
+    var left = el('div', 'info');
+    left.appendChild(el('p', 'nm', it.name));
+    if (it.author) left.appendChild(el('p', 'au', it.author));
+    btn.appendChild(left);
+    btn.appendChild(el('span', 'nota', fmtNota(it.nota)));
+    if (it.resumo) btn.appendChild(el('p', 'res', it.resumo));
+    btn.appendChild(el('span', 'when', fmtDate(it.date)));
+    btn.addEventListener('click', function () { var o = btn.classList.toggle('open'); btn.setAttribute('aria-expanded', o ? 'true' : 'false'); });
+    var li = document.createElement('li'); li.appendChild(btn); li.appendChild(heartBtn(it)); return li;
+  }
+
+  function renderFavs() {
+    var cols = document.querySelector('.cols'); cols.classList.add('single');
+    colA.textContent = ''; colB.textContent = ''; statusEl.textContent = ''; statusEl.style.display = 'none';
+    var grid = el('div', 'favgrid');
+    ['livros', 'filmes', 'series'].forEach(function (k) {
+      var c = CFG[k];
+      var sec = document.createElement('section');
+      var h = document.createElement('h2'); h.appendChild(document.createTextNode('Favoritos ')); h.appendChild(el('em', null, k === 'livros' ? 'de leitura' : k === 'filmes' ? 'de filmes' : 'de séries')); sec.appendChild(h);
+      var ul = el('ul', 'lista');
+      var list = data[k].filter(function (i) { return i.fav; }).sort(function (a, b) { return b.nota - a.nota; });
+      if (!list.length) ul.appendChild(el('li', 'empty', 'Nenhum ainda.'));
+      list.forEach(function (it) {
+        var b = BANDS.filter(function (x) { return x.k === band(it.nota); })[0];
+        var li = el('li'); var card = el('div', 'favitem'); card.style.setProperty('--c', 'var(' + b.c + ')');
+        var left = el('div', 'info'); left.appendChild(el('p', 'nm', it.name)); if (it.author) left.appendChild(el('p', 'au', it.author));
+        card.appendChild(left); card.appendChild(el('span', 'nota', fmtNota(it.nota)));
+        card.appendChild(heartBtn(it)); li.appendChild(card); ul.appendChild(li);
+      });
+      sec.appendChild(ul); grid.appendChild(sec);
+    });
+    colA.appendChild(grid);
+    novo.hidden = true; form.hidden = true;
+  }
+
+  function renderAll() {
+    if (cat === 'favs') { renderResumo(); renderFavs(); return; }
+    document.querySelector('.cols').classList.remove('single'); statusEl.style.display = ''; novo.hidden = false;
+    var c = CFG[cat], items = data[cat];
+    renderResumo();
+    colA.textContent = ''; colB.textContent = '';
+    c.states.forEach(function (s) {
+      if (s === 'feito') return;
+      var sec = section(c.names[s].split(' ')[0], c.names[s].split(' ').slice(1).join(' ') || '');
+      sec.dataset.off = (s === st) ? '0' : '1';
+      var ul = el('ul', 'lista'); ul.setAttribute('aria-label', c.names[s]);
+      var list = items.filter(function (i) { return i.st === s; });
+      if (!list.length) ul.appendChild(el('li', 'empty', s === 'lendo' ? 'Nada em andamento agora.' : 'Nada por aqui ainda. Use o botão de adicionar.'));
+      list.forEach(function (i) { ul.appendChild(card(i)); });
+      sec.appendChild(ul); colA.appendChild(sec);
+    });
+    var feito = section(c.names.feito.split(' ')[0], c.names.feito.split(' ').slice(1).join(' '));
+    feito.dataset.off = (st === 'feito') ? '0' : '1';
+    var done = items.filter(function (i) { return i.st === 'feito'; });
+    if (!done.length) feito.appendChild(el('p', 'empty', 'Quando você concluir algo, ele aparece aqui, separado por nota.'));
+    BANDS.forEach(function (b) {
+      var g = done.filter(function (i) { return band(i.nota) === b.k; }).sort(function (x, y) { return y.date.localeCompare(x.date); });
+      if (!g.length) return;
+      var d = el('div', 'band'); d.style.setProperty('--c', 'var(' + b.c + ')');
+      var h = el('h3'); h.appendChild(document.createElement('i')); h.appendChild(document.createTextNode(b.label)); d.appendChild(h);
+      var ul = el('ul', 'lista'); g.forEach(function (i) { ul.appendChild(doneCard(i)); }); d.appendChild(ul);
+      feito.appendChild(d);
+    });
+    colB.appendChild(feito);
+    // seletor de estados no celular
+    statusEl.textContent = '';
+    c.states.forEach(function (s) {
+      var b = el('button', null, c.names[s]); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', s === st ? 'true' : 'false');
+      b.addEventListener('click', function () { st = s; renderAll(); });
+      statusEl.appendChild(b);
+    });
+    // formulário
+    document.getElementById('f-nome-l').textContent = c.nameLabel;
+    document.getElementById('f-au-w').hidden = !c.author;
+    document.getElementById('f-st-w').hidden = false;
+    document.getElementById('chip-quero').textContent = c.names.quero;
+    document.getElementById('chip-lendo').textContent = c.names.lendo;
+  }
+
+  document.getElementById('cats').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-cat]'); if (!b) return;
+    cat = b.dataset.cat; if (CFG[cat]) st = CFG[cat].states[0]; msg.textContent = '';
+    Array.prototype.forEach.call(document.querySelectorAll('#cats button'), function (x) { x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
+    renderAll();
+  });
+  novo.addEventListener('click', function () {
+    var open = form.hidden; form.hidden = !open; novo.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) document.getElementById('f-nome').focus();
+  });
+  document.getElementById('cancelar').addEventListener('click', function () { form.hidden = true; novo.setAttribute('aria-expanded', 'false'); form.reset(); });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var c = CFG[cat], nome = document.getElementById('f-nome').value.trim(); if (!nome) return;
+    var item = { id:nextId++, name:nome, st:'quero' };
+    if (c.author) item.author = document.getElementById('f-au').value.trim();
+    if (c.states.indexOf('lendo') >= 0) {
+      item.st = form.querySelector('input[name="st"]:checked').value;
+      if (item.st === 'lendo') item.since = TODAY_ISO;
+      st = item.st;
+    } else { st = 'quero'; }
+    data[cat].push(item);
+    form.reset(); form.hidden = true; novo.setAttribute('aria-expanded', 'false');
+    msg.textContent = 'Anotado.';
+    renderAll();
+  });
+  renderAll();
+})();
+</script>
+<style>
+[hidden]{display:none!important} html{color-scheme:light} body{margin:0}
+.pl-rail{position:fixed;left:0;top:0;bottom:0;width:168px;z-index:30;display:flex;flex-direction:column;justify-content:space-between;padding:34px 14px 22px 22px;border-right:1px solid var(--line);background:var(--bg);box-sizing:border-box}
+.pl-tabs{display:flex;flex-direction:column;gap:10px}
+.pl-tab{display:block;font-family:var(--display);font-style:italic;font-size:1.2rem;line-height:1.2;color:var(--muted);text-decoration:none;padding:4px 0}
+.pl-tab:hover{color:var(--ink)} .pl-tab[aria-current="page"]{color:var(--ink);font-size:1.5rem}
+.pl-tab small{display:block;font-family:var(--body);font-style:normal;font-size:10.5px;letter-spacing:.04em}
+.pl-tab:focus-visible,.pl-theme:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.pl-theme{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0}
+.pl-theme svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+body{padding-left:calc(168px + 16px)!important}
+@media (max-width:820px){
+ .pl-rail{width:50px;padding:22px 0 16px;align-items:center}
+ .pl-tabs{align-items:center;gap:14px}
+ .pl-tab{writing-mode:vertical-rl;transform:rotate(180deg);font-size:1.05rem;padding:0;text-align:center}
+ .pl-tab[aria-current="page"]{font-size:1.3rem} .pl-tab small{display:none}
+ body{padding-left:calc(50px + 12px)!important;padding-right:12px!important}
+}
+</style>
+<nav class="pl-rail" aria-label="Abas"><div class="pl-tabs"><a class="pl-tab" href="index.html">Hoje</a><a class="pl-tab" href="faculdade.html">Faculdade</a><a class="pl-tab" href="metas.html">Metas</a><a class="pl-tab" href="wishlist.html">Wishlist</a><a class="pl-tab" href="repertorio.html" aria-current="page">Repertório</a><a class="pl-tab" href="cursos.html">Cursos</a></div><button id="pl-theme" class="pl-theme" type="button" aria-label="Alternar modo claro e escuro"></button></nav>
+<script>
+(function(){var r=document.documentElement,k='pl-theme';try{var s=localStorage.getItem(k);if(s)r.dataset.theme=s}catch(e){}
+var SUN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg>',MOON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>';
+function dark(){return r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches}
+var b=document.getElementById('pl-theme');function icon(){b.innerHTML=dark()?SUN:MOON}
+b.addEventListener('click',function(){var n=dark()?'light':'dark';r.dataset.theme=n;try{localStorage.setItem(k,n)}catch(e){}icon()});icon();})();
+</script>

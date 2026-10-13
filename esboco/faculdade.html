@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faculdade do planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Quicksand:wght@400;500;600;700&display=swap">
+<style>
+/* Aba Faculdade: semestre, matérias da agenda, datas de prova e seminário, média final por regra do professor e controle de faltas. */
+:root {
+  --bg:#F4F1EB; --card:#FBF9F5; --ink:#3B3834; --muted:#867F75; --line:#E6E0D5; --on-pastel:#3B3834;
+  --lilac:#CBC3E3; --sage:#C2D2BD; --blue:#C3D2E6; --peach:#F0CBAE; --butter:#EBDDA8; --rose:#E6C4C4; --coral:#EAB4A7; --coral-ink:#B8604F; --folga:#D63C3C;
+  --display:'Playfair Display', Georgia, serif;
+  --body:'Quicksand', system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg:#1F1E1C; --card:#292724; --ink:#ECE8DF; --muted:#A39D92; --line:#3A3733; --coral-ink:#E39A8B; --folga:#F2685F; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg:#1F1E1C; --card:#292724; --ink:#ECE8DF; --muted:#A39D92; --line:#3A3733; --coral-ink:#E39A8B; --folga:#F2685F; color-scheme: dark; }
+body { background:var(--bg); color:var(--ink); font-family:var(--body); font-size:15px; line-height:1.45; padding-inline:16px; }
+.wrap { max-width:1080px; margin:0 auto; padding-block:36px 80px; }
+h1, h2 { font-family:var(--display); font-style:italic; font-weight:400; line-height:1.08; margin:0; text-wrap:balance; }
+h1 { font-size:clamp(2.1rem,6.4vw,3.2rem); }
+h1 em { color:var(--muted); }
+h2 { font-size:clamp(1.5rem,4.5vw,1.9rem); }
+h3 { margin:0; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+.head { display:flex; align-items:flex-end; justify-content:space-between; gap:12px 20px; flex-wrap:wrap; }
+.resumo { margin:8px 0 0; color:var(--muted); max-width:60ch; }
+.pill { font:inherit; font-size:13px; font-weight:600; color:var(--ink); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:.4rem 1rem; cursor:pointer; }
+.pill[aria-pressed="true"] { background:var(--ink); color:var(--bg); }
+.btn { font:inherit; font-weight:600; font-size:14px; color:var(--bg); background:var(--ink); border:0; border-radius:999px; padding:.5rem 1.1rem; cursor:pointer; }
+.btn.ghost { background:transparent; color:var(--ink); border:1px solid var(--line); }
+.btn.sm { font-size:13px; padding:.35rem .9rem; }
+.pill:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .x:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
+.demo { margin-top:16px; background:color-mix(in srgb, var(--butter) 45%, var(--card)); border:1px solid var(--line); border-radius:14px; padding:10px 14px; font-weight:600; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:18px 20px; }
+.prox { margin-top:22px; }
+.prox ul { list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; }
+.prox li { display:grid; grid-template-columns:6.6rem minmax(0,1fr) auto; gap:4px 12px; align-items:baseline; padding:9px 0; border-top:1px solid var(--line); }
+.prox li:first-child { border-top:0; }
+.prox .dt { font-variant-numeric:tabular-nums; font-weight:700; }
+.prox .dt small { display:block; color:var(--muted); font-weight:500; font-size:12px; }
+.prox .nm { min-width:0; overflow-wrap:anywhere; }
+.prox .nm small { color:var(--muted); font-size:13px; }
+.tag { font-size:12px; font-weight:600; padding:.1rem .65rem; border-radius:999px; background:color-mix(in srgb, var(--c, var(--sage)) 50%, var(--card)); white-space:nowrap; }
+.tag.imp { --c:var(--coral); }
+.sem { margin:26px 0 0; display:flex; flex-wrap:wrap; gap:12px 22px; align-items:flex-end; }
+label.f { display:grid; gap:4px; font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+input[type="text"], input[type="number"], input[type="date"], select, textarea { font:inherit; font-size:15px; letter-spacing:0; text-transform:none; font-weight:500; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:.4rem .6rem; min-width:0; }
+textarea { width:100%; resize:vertical; min-height:3.2em; box-sizing:border-box; }
+.sem input { width:5.5rem; }
+.grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:18px; align-items:start; }
+@media (max-width:900px) { .grid { grid-template-columns:minmax(0,1fr); } }
+.mat { display:flex; flex-direction:column; gap:18px; }
+.mh { display:flex; flex-direction:column; gap:6px; }
+.dia { align-self:flex-start; font-size:12px; font-weight:700; letter-spacing:.04em; padding:.1rem .7rem; border-radius:999px; background:color-mix(in srgb, var(--sage) 60%, var(--card)); }
+.hor { margin:0; color:var(--muted); font-size:14px; }
+.blk { display:flex; flex-direction:column; gap:10px; border-top:1px solid var(--line); padding-top:14px; }
+.big { font-family:var(--display); font-style:italic; font-size:2.6rem; line-height:1; font-variant-numeric:tabular-nums; }
+.bigrow { display:flex; align-items:baseline; gap:10px 14px; flex-wrap:wrap; }
+.sub { color:var(--muted); font-size:14px; margin:0; }
+.say { margin:0; font-weight:500; }
+.evs { display:flex; flex-direction:column; }
+.ev { display:grid; grid-template-columns:minmax(0,1fr) auto auto auto; gap:6px 10px; align-items:end; padding:10px 0; border-top:1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+.ev:first-child { border-top:0; }
+.ev .evn { min-width:0; align-self:center; }
+.ev .evn b { font-weight:600; overflow-wrap:anywhere; }
+.ev .evn small { display:block; color:var(--muted); font-size:12px; }
+.ev input { width:4.4rem; text-align:center; }
+.ev .x { align-self:center; }
+@media (max-width:560px) { .ev { grid-template-columns:auto auto 1fr auto; } .ev .evn { grid-column:1 / -1; } .ev .x { justify-self:end; } }
+.x { font:inherit; font-size:18px; line-height:1; color:var(--muted); background:transparent; border:0; cursor:pointer; padding:.2rem .4rem; border-radius:8px; }
+.x:hover { color:var(--ink); }
+.add { display:grid; gap:10px; grid-template-columns:repeat(2,minmax(0,1fr)); background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:12px; }
+.add .full { grid-column:1 / -1; }
+.add input, .add select { width:100%; box-sizing:border-box; }
+.add .acts { grid-column:1 / -1; display:flex; gap:8px; flex-wrap:wrap; }
+.fl { display:flex; flex-wrap:wrap; gap:10px 16px; align-items:flex-end; }
+.fl input { width:5rem; } .fl select { width:7.5rem; }
+.bar { height:8px; border-radius:999px; background:var(--line); overflow:hidden; }
+.bar i { display:block; height:100%; border-radius:999px; background:var(--sage); }
+.bar.warn i { background:var(--butter); } .bar.full i { background:var(--coral); }
+.state { font-weight:700; font-size:13px; }
+.state.warn { color:var(--muted); } .state.full { color:var(--coral-ink); }
+.dates { display:flex; flex-wrap:wrap; gap:8px; }
+.dates label { display:flex; align-items:center; gap:7px; border:1px solid var(--line); background:var(--bg); border-radius:999px; padding:.3rem .85rem; cursor:pointer; font-size:14px; font-variant-numeric:tabular-nums; }
+.dates label:has(input:checked) { background:color-mix(in srgb, var(--coral) 40%, var(--card)); }
+.dates input { accent-color:var(--ink); }
+.dates.avs label:has(input:checked) { background:color-mix(in srgb, var(--sage) 55%, var(--card)); }
+.other { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.empty { color:var(--muted); margin:0; font-size:14px; }
+
+.arq { margin-top:22px; }
+.arq summary { cursor:pointer; list-style:none; display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+.arq summary::-webkit-details-marker { display:none; }
+.arq summary h2 { font-size:1.5rem; }
+.arq summary small { color:var(--muted); font-weight:600; font-size:13px; }
+.arq summary:focus-visible { outline:2px solid var(--ink); outline-offset:4px; border-radius:10px; }
+.arq .corpo { margin-top:12px; color:var(--muted); max-width:62ch; }
+.arq .corpo p { margin:0 0 10px; }
+.arq .btn[disabled] { opacity:.5; cursor:default; }
+.sem-chip { display:inline-block; font-weight:700; font-size:13px; letter-spacing:.08em; border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:.2rem .85rem; margin-bottom:10px; }
+
+.prox .tl { list-style:none; margin:14px 0 0; padding:0; display:flex; flex-direction:column; }
+.prox .tl li { display:grid; grid-template-columns:58px 22px minmax(0,1fr); gap:0 6px; position:relative; padding:0 0 14px; border-top:0; align-items:start; }
+.prox .tl li:last-child { padding-bottom:0; }
+.prox .tl .dd { text-align:right; line-height:1.15; padding-top:2px; }
+.prox .tl .dd b { display:block; font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; }
+.prox .tl .dd small { display:block; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+.prox .tl .rl { position:relative; align-self:stretch; }
+.prox .tl .rl::before { content:""; position:absolute; left:50%; top:0; bottom:-14px; width:2px; margin-left:-1px; background:var(--line); }
+.prox .tl li:last-child .rl::before { bottom:0; }
+.prox .tl li.pd .rl::after { content:""; position:absolute; left:50%; top:12px; width:11px; height:11px; margin-left:-5.5px; border-radius:50%; background:var(--card); border:2px solid color-mix(in srgb, var(--coral) 85%, var(--ink)); }
+.prox .tl li.pd.prim .rl::after { background:var(--coral-ink); border-color:var(--coral-ink); }
+.prox .tl li.pm { padding-bottom:8px; }
+.prox .tl li.pm .mm { grid-column:3; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; color:var(--muted); padding-top:2px; }
+.prox .tl .its { display:flex; flex-direction:column; gap:6px; min-width:0; }
+.prox .tl .it { display:grid; grid-template-columns:minmax(0,1fr); gap:2px 10px; align-items:center; padding:9px 12px; border-radius:14px; background:color-mix(in srgb, var(--c) 28%, var(--card)); border:1px solid color-mix(in srgb, var(--c) 55%, var(--line)); }
+.prox .tl .it b { font-weight:600; overflow-wrap:anywhere; }
+.prox .tl .it small { grid-column:1; color:var(--muted); font-size:12.5px; }
+.prox .tl .it .tag { grid-column:1; justify-self:start; margin-top:4px; background:color-mix(in srgb, var(--c) 60%, var(--card)); }
+.prox .mais { margin-top:12px; }
+@media (min-width:720px) { .prox .tl .it { grid-template-columns:minmax(0,1fr) auto; } .prox .tl .it .tag { grid-column:2; grid-row:1 / span 2; margin-top:0; justify-self:end; } }
+
+.cal { padding:16px 18px 18px; margin-top:22px; }
+.cal .chd { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; }
+.cal .chd h3 { font-family:var(--display); font-style:italic; font-weight:400; font-size:1.5rem; letter-spacing:0; text-transform:capitalize; text-align:left; margin:0; color:var(--ink); }
+.cal .arrows { display:flex; gap:4px; }
+.cal .arrows button { width:32px; height:32px; border-radius:50%; border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; font:inherit; font-size:15px; line-height:1; }
+.cal .arrows .hj { width:auto; padding:0 12px; border-radius:999px; font-size:12.5px; font-weight:700; letter-spacing:.04em; }
+.cal .arrows .hj.on { background:var(--ink); color:var(--bg); border-color:var(--ink); }
+@media (max-width:480px) { .cal .chd h3 { font-size:1.2rem; white-space:nowrap; } .cal .arrows button { width:30px; height:30px; } .cal .arrows .hj { padding:0 10px; } }
+.cal .arrows button:hover { background:color-mix(in srgb, var(--line) 60%, var(--card)); }
+.cgrid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px; max-width:420px; }
+.cgrid .dw { text-align:center; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600; padding-bottom:4px; }
+.cd { aspect-ratio:1/1; max-height:44px; border:0; background:transparent; border-radius:12px; font:inherit; font-size:13px; font-variant-numeric:tabular-nums; color:var(--ink); display:grid; place-items:center; padding:0; position:relative; cursor:default; }
+.cd.out { color:var(--muted); opacity:.45; }
+.cd.has { cursor:pointer; font-weight:700; background:color-mix(in srgb, var(--c) 62%, var(--card)); }
+.cd.has:hover { background:color-mix(in srgb, var(--c) 80%, var(--card)); }
+.cd.has.many::after { content:""; position:absolute; bottom:4px; left:50%; width:4px; height:4px; margin-left:-2px; border-radius:50%; background:var(--ink); opacity:.55; }
+.cd.today span { display:grid; place-items:center; width:26px; height:26px; border-radius:50%; border:2px solid var(--ink); box-sizing:border-box; }
+.cd.has.today span { border-color:var(--ink); }
+.cd.folga span { position:relative; font-weight:700; text-shadow:0 0 3px var(--card), 0 0 3px var(--card), 0 0 5px var(--card); }
+.cd.folga::before { content:""; position:absolute; inset:3px; pointer-events:none; background:
+  linear-gradient(to top right, transparent calc(50% - 1.3px), var(--folga) calc(50% - 1.3px), var(--folga) calc(50% + 1.3px), transparent calc(50% + 1.3px)),
+  linear-gradient(to top left, transparent calc(50% - 1.3px), var(--folga) calc(50% - 1.3px), var(--folga) calc(50% + 1.3px), transparent calc(50% + 1.3px)); }
+.cal .leg .x { display:inline-block; width:12px; height:12px; margin-right:6px; vertical-align:-1px; background:
+  linear-gradient(to top right, transparent calc(50% - 1px), var(--folga) calc(50% - 1px), var(--folga) calc(50% + 1px), transparent calc(50% + 1px)),
+  linear-gradient(to top left, transparent calc(50% - 1px), var(--folga) calc(50% - 1px), var(--folga) calc(50% + 1px), transparent calc(50% + 1px)); }
+.cd.sel { outline:2px solid var(--ink); outline-offset:1px; }
+.cal .leg { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:12px; font-size:12.5px; color:var(--muted); }
+.cal .leg i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; background:var(--c); vertical-align:-1px; }
+.cal .det { margin-top:12px; display:flex; flex-direction:column; gap:6px; }
+.cal .det .dh { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+.cal .det .it { display:grid; gap:2px; padding:9px 12px; border-radius:14px; background:color-mix(in srgb, var(--c) 28%, var(--card)); border:1px solid color-mix(in srgb, var(--c) 55%, var(--line)); }
+.cal .det .it b { font-weight:600; overflow-wrap:anywhere; }
+.cal .det .it small { color:var(--muted); font-size:12.5px; }
+.cal .vazio { color:var(--muted); font-size:13px; margin:10px 0 0; }
+@media (min-width:720px) { .cal .corpo-cal { display:grid; grid-template-columns:minmax(0,420px) minmax(0,1fr); gap:24px; align-items:start; } .cal .det { margin-top:0; } }
+
+.note { margin-top:36px; color:var(--muted); font-size:13px; max-width:66ch; }
+</style>
+
+<div class="wrap">
+<header class="head">
+<div>
+<span class="sem-chip" id="sem-chip">2026.2</span>
+<h1>Segundo semestre<em> - Economia UNIFESP</em></h1>
+<p id="resumo" class="resumo"></p>
+</div>
+<button id="demo" class="pill" type="button" aria-pressed="false">ver com exemplo</button>
+</header>
+
+<div id="demo-b" class="demo" hidden>Dados de exemplo. Nada disso é seu, só mostra como a média e as faltas se comportam.</div>
+
+<section class="card cal" aria-labelledby="cal-t">
+<div class="chd"><h3 id="cal-t"></h3><div class="arrows"><button id="cal-prev" type="button" aria-label="mês anterior">‹</button><button id="cal-hoje" class="hj" type="button" aria-label="voltar para hoje">hoje</button><button id="cal-next" type="button" aria-label="próximo mês">›</button></div></div>
+<div class="corpo-cal"><div><div class="cgrid" id="cal-g"></div>
+<div class="leg"><span style="--c:var(--coral)"><i></i>prova ou seminário</span><span style="--c:var(--peach)"><i></i>trabalho</span><span style="--c:var(--sage)"><i></i>atividade</span><span><i class="x"></i>feriado</span></div></div>
+<div class="det" id="cal-d"></div></div>
+</section>
+
+<section class="card prox" aria-labelledby="px-t">
+<h3 id="px-t">Próximas avaliações e entregas</h3>
+<ol id="px" class="tl"></ol>
+</section>
+
+<div class="sem">
+<label class="f">Semestre<input id="semestre" type="text" value="2026.2" style="width:8rem"></label>
+<label class="f">Média para passar<input id="minimo" type="number" min="0" max="10" step="0.5" inputmode="decimal" placeholder="a definir"></label>
+</div>
+
+<div id="mats" class="grid"></div>
+
+<details class="card arq">
+<summary><h2>Semestres anteriores</h2><small>nenhum ainda</small></summary>
+<div class="corpo">
+<p>Quando um semestre fecha, ele fica guardado aqui para sempre, com as matérias, as notas finais e as faltas de cada uma. Você abre e consulta quando quiser, e nada é apagado.</p>
+<p>O fechamento é sugerido depois da última prova. O 2026.2 tem aulas até 2 de dezembro.</p>
+<button class="btn ghost sm" type="button" disabled>Fechar o semestre 2026.2</button>
+</div>
+</details>
+
+<p class="note">Esboço. As matérias e os dias vêm da sua agenda, e as datas de avaliação são as que já estão no seu Google Calendar. Os limites e as faltas já são os que você me passou. Notas, pesos e regras de média ficam em branco até você me passar. Aqui as marcações não ficam guardadas, na versão final tudo é salvo no celular e sincroniza entre os aparelhos.</p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var TODAY = new Date(2026, 9, 11);
+  var DIAS = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+  var DS = ['dom','seg','ter','qua','qui','sex','sáb'];
+  var TIPOS = { prova:'prova', seminario:'seminário', trabalho:'trabalho', av:'atividade' };
+  var HOLS = { '2026-09-07':1, '2026-10-12':1, '2026-10-28':1, '2026-11-02':1, '2026-11-20':1 };
+  function p2(n) { return n < 10 ? '0' + n : '' + n; }
+  function iso(d) { return d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()); }
+  function parse(s) { var a = s.split('-'); return new Date(+a[0], +a[1] - 1, +a[2]); }
+  function dm(s) { var a = s.split('-'); return a[2] + '/' + a[1]; }
+  function fmt(n) { return (Math.round(n * 100) / 100).toString().replace('.', ','); }
+  function num(v) { v = String(v).trim().replace(',', '.'); if (v === '') return null; var n = parseFloat(v); return isNaN(n) ? null : n; }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function days(a, b) { return Math.round((b - a) / 86400000); }
+  function lastDates(dow, k) {
+    var out = [], d = new Date(TODAY);
+    while (out.length < k) { if (d.getDay() === dow && !HOLS[iso(d)]) out.push(iso(d)); d.setDate(d.getDate() - 1); }
+    return out.reverse();
+  }
+
+  var SEM_INI = '2026-08-17';
+  function allDates(dow) {
+    var out = [], d = parse(SEM_INI);
+    while (d <= TODAY) { if (d.getDay() === dow && !HOLS[iso(d)]) out.push(iso(d)); d.setDate(d.getDate() + 1); }
+    return out;
+  }
+  function ev(n, tipo, date, conf) { return { n:n, tipo:tipo, date:date || null, peso:null, nota:null, conf:conf }; }
+  function mat(id, nome, dow, evs, fim, fimConf) { return { id:id, nome:nome, dow:dow, fim:fim || null, fimConf:fimConf !== false, regra:'', ev:evs || [], limite:null, valor:1, faltas:[], prev:0, adding:false, avs:[], avTotal:null, modo:null }; }
+
+  function withF(m, lim, prev, dates) { m.limite = lim; m.prev = prev; m.faltas = dates || []; return m; }
+  function mkReal() {
+    var o = { minimo:6, mats:[
+      withF(mat('crb', 'CRB III', 1, [ ev('Seminário', 'seminario', '2026-11-23') ], '2026-11-30'), 4, 0, ['2026-09-14', '2026-09-21']),
+      withF(mat('est', 'Estatística I', 2, [], '2026-11-10'), 3, 0),
+      withF(mat('tsc', 'Teoria Social Contemporânea', 3, [ ev('Seminário', 'seminario', '2026-11-11'), ev('Prova', 'prova', '2026-12-02') ], '2026-12-02'), 3, 0),
+      withF(mat('cal', 'Cálculo II', 4, [ ev('P1', 'prova', '2026-10-15'), ev('P2', 'prova', '2026-11-26') ], '2026-11-26'), 3, 0, ['2026-09-03']),
+      withF(mat('heg', 'HEG II', 5, [ ev('Atividade de monitoria', 'av', '2026-09-18'), ev('P1', 'prova', '2026-10-02'), ev('Atividade de monitoria', 'av', '2026-11-06'), ev('Atividade de monitoria', 'av', '2026-11-13'), ev('P2', 'prova', '2026-11-27') ], '2026-11-27'), 3, 0, ['2026-09-11'])
+    ] };
+    var es = o.mats[1];
+    es.modo = 'estat'; es.avTotal = 6;
+    es.ev = [ ev('P1', 'prova', '2026-09-22'), ev('Entrega do Projeto', 'trabalho', '2026-11-03'), ev('P2', 'prova', '2026-11-10') ];
+    es.ev[0].k = 'p1'; es.ev[1].k = 'proj'; es.ev[2].k = 'p2';
+    es.avs = [ ['AV1', '2026-08-25', 1], ['AV2', '2026-09-01', 1], ['AV3', '2026-09-15', 1], ['AV4', '2026-10-06', 1], ['AV5', '2026-10-20', 0], ['AV6 e dados do projeto', '2026-10-27', 0] ].map(function (a) { return { n:a[0], date:a[1], feita:!!a[2] }; });
+    es.regra = 'Média final = (P1 × 2 + P2 × 2 + Projeto) ÷ 5. P1 e P2 valem até 8, mais até 2 pontos das AVs, que contam como feita ou não feita. O projeto vale até 10.';
+    var cl = o.mats[3];
+    cl.modo = 'mat2';
+    cl.ev = [ ev('P1', 'prova', '2026-10-15'), ev('P2', 'prova', '2026-11-26'), ev('Prova substitutiva', 'prova', '2026-12-03'), ev('Exame', 'prova', '2026-12-10') ];
+    cl.ev[0].k = 'p1'; cl.ev[1].k = 'p2'; cl.ev[2].k = 'sub'; cl.ev[3].k = 'ex';
+    cl.ev[2].cond = 'só se justificar a falta'; cl.ev[3].cond = 'só se a semestral ficar entre 3 e 6';
+    cl.avs = [ { n:'Exercícios gerais E1', date:'2026-10-15', feita:false }, { n:'Exercícios gerais E2', date:'2026-11-26', feita:false } ];
+    cl.regra = 'Nota semestral = 0,45 P1 + 0,45 P2 + 0,05 E1 + 0,05 E2, no máximo 10. Os exercícios E1 e E2 valem se entregues antes da prova. 6 ou mais aprova, menos de 3 reprova, entre 3 e 6 vai para o exame e a nota final é (semestral + exame) ÷ 2, precisando de 6. A substitutiva só vale para quem justificar a falta. A monitoria é bônus e fica fora.';
+    o.mats[2].regra = 'Em aberto, o professor ainda não definiu. Por enquanto, média simples do seminário e da prova, cada um de 0 a 10.';
+    var hg = o.mats[4];
+    hg.modo = 'heg';
+    hg.ev.forEach(function (e) { e.k = e.n === 'P1' ? 'p1' : (e.n === 'P2' ? 'p2' : 'mon'); });
+    hg.regra = 'Média final = 1/3 da P1 + 1/3 da P2 + 1/3 das atividades de monitoria, que entram pela média delas.';
+    var cr = o.mats[0];
+    cr.modo = 'pontos';
+    cr.regra = 'Média simples, soma de pontos: seminário 8, trabalho de campo 1, filme e debate 1.';
+    cr.ev = [ ev('Trabalho de campo', 'trabalho', '2026-10-03'), ev('Filme e debate', 'trabalho', '2026-10-26'), ev('Seminário', 'seminario', '2026-11-23') ];
+    cr.ev[0].peso = 1; cr.ev[0].nota = 1; cr.ev[1].peso = 1; cr.ev[2].peso = 8;
+    return o;
+  }
+  function mkDemo() {
+    var s = mkReal(); s.minimo = 6;
+    s.mats.forEach(function (x) { x.prev = 0; x.faltas = []; });
+    var m = s.mats;
+    m[0].limite = 8; m[0].faltas = lastDates(1, 6).slice(1, 4); m[0].ev[1].nota = 0.5;
+    var e = m[1]; e.limite = 8; e.valor = 2; e.faltas = lastDates(2, 6).slice(3, 5);
+    e.ev[0].nota = 6.5;
+    var t = m[2]; t.limite = 6; t.faltas = lastDates(3, 6).slice(0, 5);
+    t.ev = [ ev('Seminário (exemplo)', 'seminario', null), ev('Prova (exemplo)', 'prova', null) ];
+    t.ev[0].peso = 40; t.ev[0].nota = 8.5; t.ev[1].peso = 60;
+    var c = m[3]; c.limite = 10; c.faltas = lastDates(4, 6).slice(4, 5);
+    c.ev[0].nota = 6; c.avs[0].feita = true;
+    m[4].limite = 8; m[4].ev[0].nota = 8; m[4].ev[1].nota = 7;
+    return s;
+  }
+
+  var real = mkReal(), demo = mkDemo(), S = real, isDemo = false;
+  var matsEl = document.getElementById('mats'), pxEl = document.getElementById('px'), resumoEl = document.getElementById('resumo');
+  var minEl = document.getElementById('minimo');
+
+  function calc(m) {
+    if (m.modo === 'mat2') {
+      var g = {}; m.ev.forEach(function (e) { g[e.k] = e; });
+      var a1 = g.p1.nota, a2 = g.p2.nota, sb = g.sub.nota;
+      if (sb != null) { if (a1 == null) a1 = sb; else if (a2 == null) a2 = sb; else if (a1 <= a2) a1 = sb; else a2 = sb; }
+      function ex(a) { return a.feita ? 10 : (parse(a.date) < TODAY ? 0 : null); }
+      var cm = [ { w:0.45, v:a1, nome:'P1' }, { w:0.45, v:a2, nome:'P2' }, { w:0.05, v:ex(m.avs[0]), nome:'os exercícios E1' }, { w:0.05, v:ex(m.avs[1]), nome:'os exercícios E2' } ];
+      var kn2 = 0, rw2 = 0, ms2 = [];
+      cm.forEach(function (c) { if (c.v != null) kn2 += c.w * c.v; else { rw2 += c.w; ms2.push(c.nome); } });
+      return { m2:true, known:Math.min(10, kn2), remW:rw2, miss:ms2, exam:g.ex.nota, need:rw2 > 0.0001 ? (6 - kn2) / rw2 : null, maxPos:kn2 + rw2 * 10 };
+    }
+    if (m.modo === 'heg') {
+      var byk = {}; m.ev.forEach(function (e) { if (e.k !== 'mon') byk[e.k] = e; });
+      var mons = m.ev.filter(function (e) { return e.k === 'mon'; });
+      var mg = mons.filter(function (e) { return e.nota != null; });
+      var mavg = mg.length ? mg.reduce(function (t, e) { return t + e.nota; }, 0) / mg.length : null;
+      var cs = [ { nome:'P1', v:byk.p1 && byk.p1.nota != null ? byk.p1.nota : null }, { nome:'P2', v:byk.p2 && byk.p2.nota != null ? byk.p2.nota : null }, { nome:'a monitoria', v:mavg } ];
+      var kn = 0, kc = 0, ms = [];
+      cs.forEach(function (c) { if (c.v != null) { kn += c.v; kc++; } else ms.push(c.nome); });
+      var pm = mons.length - mg.length, rw = ms.length;
+      return { est:true, line:'Monitoria: ' + mg.length + ' de ' + mons.length + ' atividades com nota lançada. A nota da monitoria é a média delas.', pendTxt:'faltam notas da monitoria', kw:kc, miss:ms, remW:rw,
+               media:rw || pm ? null : kn / 3, parcial:kc ? kn / kc : null, need:S.minimo != null && rw ? (S.minimo * 3 - kn) / rw : null };
+    }
+    if (m.modo === 'estat') {
+      var fe = m.avs.filter(function (a) { return a.feita; }).length;
+      var avp = m.avTotal ? Math.min(2, 2 * fe / m.avTotal) : null;
+      var by = {}; m.ev.forEach(function (e) { by[e.k] = e; });
+      var comps = [
+        { w:2, nome:'P1 final', v:by.p1 && by.p1.nota != null ? Math.min(10, by.p1.nota + (avp || 0)) : null },
+        { w:2, nome:'P2 final', v:by.p2 && by.p2.nota != null ? Math.min(10, by.p2.nota + (avp || 0)) : null },
+        { w:1, nome:'o projeto', v:by.proj && by.proj.nota != null ? by.proj.nota : null }
+      ];
+      var known = 0, kw = 0, miss = [], remW = 0;
+      comps.forEach(function (c) { if (c.v != null) { known += c.w * c.v; kw += c.w; } else { miss.push(c.nome); remW += c.w; } });
+      var line = avp == null ? 'AVs feitas: ' + fe + '. Informe o total de AVs do semestre para somar os pontos.' : 'AVs feitas: ' + fe + ' de ' + m.avTotal + '. Isso soma ' + fmt(Math.round(avp * 100) / 100) + ' de 2 pontos em cada prova.';
+      return { est:true, line:line, pendTxt:'', fe:fe, avp:avp, kw:kw, miss:miss, remW:remW, media:remW ? null : known / 5, parcial:kw ? known / kw : null,
+               need:S.minimo != null && remW ? (S.minimo * 5 - known) / remW : null, p1ok:comps[0].v != null };
+    }
+    if (m.modo === 'pontos') {
+      var gp = m.ev.filter(function (e) { return e.nota != null; });
+      if (!gp.length) return null;
+      var pts = 0, mx = 0, rem = 0;
+      m.ev.forEach(function (e) { var v = e.peso || 0; mx += v; if (e.nota != null) pts += e.nota; else rem += v; });
+      return { pontos:true, pts:pts, max:mx, rem:rem, done:!m.ev.some(function (e) { return e.nota == null; }), need:S.minimo != null && rem ? S.minimo - pts : null };
+    }
+    var graded = m.ev.filter(function (e) { return e.nota != null; });
+    if (!graded.length) return null;
+    var hasW = m.ev.every(function (e) { return e.peso != null && e.peso > 0; });
+    function w(e) { return hasW ? e.peso : 1; }
+    var sw = 0, sn = 0, tw = 0;
+    graded.forEach(function (e) { sw += w(e); sn += e.nota * w(e); });
+    m.ev.forEach(function (e) { tw += w(e); });
+    var pend = m.ev.filter(function (e) { return e.nota == null; });
+    var r = { media:sn / sw, simple:!hasW, done:!pend.length, need:null };
+    if (hasW && S.minimo != null && pend.length) {
+      var rw = 0; pend.forEach(function (e) { rw += w(e); });
+      r.need = (S.minimo * tw - sn) / rw;
+    }
+    return r;
+  }
+
+  function renderMedia(m, out) {
+    out.textContent = '';
+    var r = calc(m);
+    if (r && r.m2) {
+      var all = r.remW < 0.0001;
+      if (r.known === 0 && !all && r.miss.length === 4) { out.appendChild(el('p', 'empty', 'Ainda sem notas de prova ou exercícios entregues.')); return; }
+      var r2 = el('div', 'bigrow');
+      r2.appendChild(el('span', 'big', fmt(Math.round(r.known * 100) / 100)));
+      r2.appendChild(el('span', 'sub', all ? 'nota semestral' : 'pontos até agora, de 10, faltam ' + r.miss.join(', ').replace(/, ([^,]*)$/, ' e $1')));
+      out.appendChild(r2);
+      var t2;
+      if (all) {
+        if (r.known >= 6) t2 = 'Aprovada pela nota semestral.';
+        else if (r.known < 3) t2 = 'Reprovada, nota semestral abaixo de 3.';
+        else if (r.exam == null) t2 = 'Vai para o exame. Para passar, você precisa de pelo menos ' + fmt(Math.ceil((12 - r.known) * 10) / 10) + ' no exame.';
+        else { var fn = (r.known + r.exam) / 2; t2 = (fn >= 6 ? 'Aprovada no exame, ' : 'Reprovada no exame, ') + 'nota final ' + fmt(Math.round(fn * 100) / 100) + '.'; }
+      } else if (r.maxPos < 3) t2 = 'Mesmo com 10 no que falta, a nota fica abaixo de 3, o mínimo para o exame.';
+      else if (r.need <= 0) t2 = 'A aprovação direta já está garantida, mesmo que o resto venha zerado.';
+      else if (r.need > 10) t2 = 'Passar direto já não dá mais, o caminho agora é o exame.';
+      else t2 = 'Para passar direto com 6, ' + r.miss.join(', ').replace(/, ([^,]*)$/, ' e $1') + ' precisam de média ' + fmt(Math.ceil(r.need * 10) / 10) + ', numa escala de 0 a 10.';
+      out.appendChild(el('p', 'say', t2));
+      return;
+    }
+    if (r && r.est) {
+      if (r.kw === 0) out.appendChild(el('p', 'empty', 'Ainda sem notas de prova ou do projeto.'));
+      else {
+        var re = el('div', 'bigrow');
+        re.appendChild(el('span', 'big', fmt(r.media != null ? r.media : r.parcial)));
+        re.appendChild(el('span', 'sub', r.media != null ? 'média final' : 'média parcial, ' + (r.miss.length ? 'faltam ' + r.miss.join(' e ') : r.pendTxt)));
+        out.appendChild(re);
+        var te;
+        if (r.media != null) te = S.minimo != null ? (r.media >= S.minimo ? 'Aprovada pela média.' : 'Abaixo da média para passar.') : null;
+        else if (r.need != null) {
+          if (r.need <= 0) te = 'Já está garantida, mesmo que o resto venha zerado.';
+          else if (r.need > 10) te = 'Fechar com ' + fmt(S.minimo) + ' já não dá mais, mesmo com 10 no que falta.';
+          else te = 'Para fechar com ' + fmt(S.minimo) + ', ' + r.miss.join(' e ') + ' precisam de média ' + fmt(Math.ceil(r.need * 10) / 10) + ', numa escala de 0 a 10.';
+        }
+        if (te) out.appendChild(el('p', 'say', te));
+      }
+      var pa = r.line;
+      out.appendChild(el('p', 'sub', pa));
+      return;
+    }
+    if (!r) { out.appendChild(el('p', 'empty', m.ev.length ? 'Ainda sem notas lançadas.' : 'Nenhuma avaliação cadastrada por enquanto.')); return; }
+    if (r.pontos) {
+      var rp = el('div', 'bigrow');
+      rp.appendChild(el('span', 'big', fmt(r.pts)));
+      rp.appendChild(el('span', 'sub', r.done ? 'pontos, nota final' : 'pontos até agora, de ' + fmt(r.max)));
+      out.appendChild(rp);
+      var tp;
+      if (r.need != null) {
+        if (r.need <= 0) tp = 'Já está garantida, mesmo sem somar mais nada.';
+        else if (r.need > r.rem) tp = 'Fechar com ' + fmt(S.minimo) + ' já não dá mais, mesmo com todos os pontos que faltam.';
+        else tp = 'Para fechar com ' + fmt(S.minimo) + ', você precisa de mais ' + fmt(r.need) + (r.need === 1 ? ' ponto' : ' pontos') + ' dos ' + fmt(r.rem) + ' que faltam.';
+      } else if (r.done && S.minimo != null) tp = r.pts >= S.minimo ? 'Aprovada pela média.' : 'Abaixo da média para passar.';
+      if (tp) out.appendChild(el('p', 'say', tp));
+      return;
+    }
+    var row = el('div', 'bigrow');
+    row.appendChild(el('span', 'big', fmt(r.media)));
+    row.appendChild(el('span', 'sub', r.done ? 'média final' : (r.simple ? 'média simples até agora, regra do professor em aberto' : 'média até agora')));
+    out.appendChild(row);
+    if (r.need != null) {
+      var txt;
+      if (r.need <= 0) txt = 'Já está garantida, mesmo que as próximas venham zeradas.';
+      else if (r.need > 10) txt = 'Fechar com ' + fmt(S.minimo) + ' já não dá mais, mesmo com 10 nas próximas.';
+      else txt = 'Para fechar com ' + fmt(S.minimo) + ', você precisa de média ' + fmt(Math.ceil(r.need * 10) / 10) + ' nas que faltam.';
+      out.appendChild(el('p', 'say', txt));
+    } else if (r.done && S.minimo != null) {
+      out.appendChild(el('p', 'say', r.media >= S.minimo ? 'Aprovada pela média.' : 'Abaixo da média para passar.'));
+    }
+  }
+
+  function faltaCount(m) { return (m.faltas.length + (m.prev || 0)) * (m.valor || 1); }
+  function leftOf(m) { return m.limite ? m.limite - faltaCount(m) : null; }
+  function hot(m) { return m.limite && leftOf(m) <= 1; }
+
+  function renderFaltas(m, out) {
+    out.textContent = '';
+    var n = faltaCount(m);
+    var row = el('div', 'bigrow');
+    row.appendChild(el('span', 'big', String(n)));
+    row.appendChild(el('span', 'sub', m.limite ? 'de até ' + m.limite + ' faltas permitidas' : (n === 1 ? 'falta marcada' : 'faltas marcadas')));
+    out.appendChild(row);
+    if (m.limite) {
+      var left = leftOf(m), cls = left <= 0 ? 'full' : (left === 1 ? 'warn' : '');
+      var bar = el('div', 'bar ' + cls); var i = document.createElement('i'); i.style.width = Math.min(100, Math.round(n / m.limite * 100)) + '%'; bar.appendChild(i);
+      bar.setAttribute('role', 'img'); bar.setAttribute('aria-label', n + ' de ' + m.limite + ' faltas');
+      out.appendChild(bar);
+      var t = left < 0 ? 'Passou do limite.' : (left === 0 ? 'Limite atingido, a próxima falta reprova.' : (left === 1 ? 'Atenção, ainda dá para faltar só 1 vez.' : 'Ainda dá para faltar ' + left + ' vezes.'));
+      out.appendChild(el('p', 'state ' + cls, t));
+    } else {
+      out.appendChild(el('p', 'empty', 'Defina quantas faltas o professor permite para acompanhar.'));
+    }
+  }
+
+  function build(m) {
+    var c = el('article', 'card mat');
+    var mh = el('div', 'mh');
+    mh.appendChild(el('span', 'dia', DIAS[m.dow]));
+    mh.appendChild(el('h2', null, m.nome));
+    mh.appendChild(el('p', 'hor', DIAS[m.dow].charAt(0).toUpperCase() + DIAS[m.dow].slice(1) + ', das 19h às 23h. ' + (m.fim ? 'Aulas até ' + dm(m.fim) + (m.fimConf ? '.' : ', a confirmar.') : 'Fim das aulas a confirmar.')));
+    c.appendChild(mh);
+
+    var b1 = el('section', 'blk'); b1.appendChild(el('h3', null, 'Média final'));
+    var mOut = el('div'); b1.appendChild(mOut);
+    var evs = el('div', 'evs'); b1.appendChild(evs);
+    var avBox = el('div'); if (m.modo === 'estat' || m.modo === 'mat2') b1.appendChild(avBox);
+    var addBox = el('div'); if (m.modo !== 'estat' && m.modo !== 'heg' && m.modo !== 'mat2') b1.appendChild(addBox);
+    var regra = el('label', 'f', 'Regra do professor');
+    var ta = document.createElement('textarea'); ta.value = m.regra; ta.placeholder = 'Como a média final é calculada. Entra aqui quando você me passar.';
+    ta.rows = Math.max(2, Math.ceil(m.regra.length / 48) + 1);
+    ta.addEventListener('input', function () { m.regra = ta.value; });
+    regra.appendChild(ta); b1.appendChild(regra);
+    c.appendChild(b1);
+
+    var b2 = el('section', 'blk'); b2.appendChild(el('h3', null, 'Faltas'));
+    var fOut = el('div'); fOut.style.display = 'grid'; fOut.style.gap = '10px'; b2.appendChild(fOut);
+    var fl = el('div', 'fl');
+    var l1 = el('label', 'f', 'Pode faltar até'); var lim = document.createElement('input'); lim.type = 'number'; lim.min = '0'; lim.step = '1'; lim.inputMode = 'numeric'; lim.value = m.limite == null ? '' : m.limite; l1.appendChild(lim);
+    var l2 = el('label', 'f', 'Cada dia vale'); var val = document.createElement('select');
+    [1, 2, 4].forEach(function (v) { var o = document.createElement('option'); o.value = v; o.textContent = v + (v === 1 ? ' falta' : ' faltas'); if (v === m.valor) o.selected = true; val.appendChild(o); }); l2.appendChild(val);
+    fl.appendChild(l1); fl.appendChild(l2); b2.appendChild(fl);
+    var tog = el('button', 'btn ghost sm', 'Marcar faltas'); tog.type = 'button'; tog.style.alignSelf = 'flex-start'; tog.setAttribute('aria-expanded', 'false'); b2.appendChild(tog);
+    var picker = el('div'); picker.hidden = true; picker.style.display = 'grid'; picker.style.gap = '10px'; b2.appendChild(picker);
+    c.appendChild(b2);
+
+    function upd() { renderMedia(m, mOut); renderFaltas(m, fOut); top(); }
+    c._upd = upd;
+
+    function drawEv() {
+      evs.textContent = '';
+      m.ev.forEach(function (e, idx) {
+        var r = el('div', 'ev');
+        var nm = el('div', 'evn'); nm.appendChild(el('b', null, e.n));
+        nm.appendChild(el('small', null, TIPOS[e.tipo] + (e.date ? ', ' + dm(e.date) : '') + (m.modo === 'estat' ? (e.k === 'p1' || e.k === 'p2' ? ', vale até 8' : (e.k === 'proj' ? ', vale até 10' : '')) : (m.modo === 'mat2' && (e.k === 'p1' || e.k === 'p2') ? ', vale 45%' : '')) + (e.cond ? ', ' + e.cond : '') + (e.conf === false ? ', data a confirmar' : '')));
+        r.appendChild(nm);
+        var lp = el('label', 'f', m.modo === 'pontos' ? 'vale' : 'peso %'); if (m.modo === 'estat' || m.modo === 'heg' || m.modo === 'mat2') lp.hidden = true; var ip = document.createElement('input'); ip.type = 'text'; ip.inputMode = 'decimal'; ip.value = e.peso == null ? '' : fmt(e.peso); ip.setAttribute('aria-label', 'Peso de ' + e.n);
+        ip.addEventListener('input', function () { e.peso = num(ip.value); upd(); }); lp.appendChild(ip); r.appendChild(lp);
+        var ln = el('label', 'f', m.modo === 'pontos' ? 'tirou' : 'nota'); var inn = document.createElement('input'); inn.type = 'text'; inn.inputMode = 'decimal'; inn.value = e.nota == null ? '' : fmt(e.nota); inn.setAttribute('aria-label', 'Nota de ' + e.n);
+        inn.addEventListener('input', function () { e.nota = num(inn.value); upd(); }); ln.appendChild(inn); r.appendChild(ln);
+        var x = el('button', 'x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remover ' + e.n);
+        x.addEventListener('click', function () { m.ev.splice(idx, 1); drawEv(); upd(); }); r.appendChild(x);
+        evs.appendChild(r);
+      });
+    }
+    function drawAv() {
+      avBox.textContent = '';
+      avBox.style.display = 'grid'; avBox.style.gap = '10px';
+      avBox.appendChild(el('h3', null, m.modo === 'mat2' ? 'Exercícios gerais' : 'Atividades (AV)'));
+      var bx = el('div', 'dates avs'); bx.setAttribute('role', 'group'); bx.setAttribute('aria-label', 'Atividades feitas');
+      m.avs.forEach(function (a) {
+        var l = document.createElement('label'); var cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = a.feita;
+        cb.addEventListener('change', function () { a.feita = cb.checked; upd(); });
+        l.appendChild(cb); l.appendChild(document.createTextNode(m.modo === 'mat2' ? a.n + ', entregar até ' + dm(a.date) : a.n + (a.date ? ', ' + dm(a.date) : ''))); bx.appendChild(l);
+      });
+      avBox.appendChild(bx);
+      if (m.modo !== 'estat') return;
+      var row = el('div', 'fl');
+      var lt = el('label', 'f', 'Total de AVs no semestre'); var it = document.createElement('input'); it.type = 'number'; it.min = '1'; it.step = '1'; it.inputMode = 'numeric'; it.placeholder = '7 ou 8'; it.value = m.avTotal == null ? '' : m.avTotal; lt.appendChild(it);
+      it.addEventListener('input', function () { var v = num(it.value); m.avTotal = v && v > 0 ? Math.round(v) : null; upd(); });
+      var ad = el('button', 'btn ghost sm', 'Nova AV'); ad.type = 'button';
+      ad.addEventListener('click', function () { m.avs.push({ n:'AV' + (m.avs.length + 1), date:null, feita:false }); drawAv(); upd(); });
+      row.appendChild(lt); row.appendChild(ad); avBox.appendChild(row);
+    }
+    function drawAdd() {
+      addBox.textContent = '';
+      if (m.modo === 'estat' || m.modo === 'heg' || m.modo === 'mat2') return;
+      if (!m.adding) {
+        var b = el('button', 'btn ghost sm', 'Adicionar avaliação'); b.type = 'button';
+        b.addEventListener('click', function () { m.adding = true; drawAdd(); }); addBox.appendChild(b); return;
+      }
+      var f = el('form', 'add');
+      var a = el('label', 'f full', 'Nome'); var an = document.createElement('input'); an.type = 'text'; an.required = true; a.appendChild(an); f.appendChild(a);
+      var t = el('label', 'f', 'Tipo'); var ts = document.createElement('select');
+      Object.keys(TIPOS).forEach(function (k) { var o = document.createElement('option'); o.value = k; o.textContent = TIPOS[k]; ts.appendChild(o); }); t.appendChild(ts); f.appendChild(t);
+      var d = el('label', 'f', 'Data (opcional)'); var di = document.createElement('input'); di.type = 'date'; d.appendChild(di); f.appendChild(d);
+      var p = el('label', 'f', m.modo === 'pontos' ? 'Vale, em pontos' : 'Peso % (opcional)'); var pi = document.createElement('input'); pi.type = 'text'; pi.inputMode = 'decimal'; p.appendChild(pi); f.appendChild(p);
+      var acts = el('div', 'acts'); var ok = el('button', 'btn sm', 'Incluir'); ok.type = 'submit'; var cx = el('button', 'btn ghost sm', 'Cancelar'); cx.type = 'button'; acts.appendChild(ok); acts.appendChild(cx); f.appendChild(acts);
+      f.addEventListener('submit', function (evn) {
+        evn.preventDefault();
+        var o = ev(an.value.trim(), ts.value, di.value || null); o.peso = num(pi.value); m.ev.push(o);
+        m.ev.sort(function (x, y) { return (x.date || '9') < (y.date || '9') ? -1 : 1; });
+        m.adding = false; drawEv(); drawAdd(); upd();
+      });
+      cx.addEventListener('click', function () { m.adding = false; drawAdd(); });
+      addBox.appendChild(f); an.focus();
+    }
+    function drawPicker() {
+      picker.textContent = '';
+      var all = allDates(m.dow);
+      m.faltas.forEach(function (d) { if (all.indexOf(d) < 0) all.push(d); });
+      all.sort();
+      var box = el('div', 'dates'); box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'Dias de aula de ' + m.nome);
+      all.forEach(function (d) {
+        var l = document.createElement('label'); var cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = m.faltas.indexOf(d) >= 0;
+        cb.addEventListener('change', function () {
+          var i = m.faltas.indexOf(d);
+          if (cb.checked && i < 0) m.faltas.push(d); else if (!cb.checked && i >= 0) m.faltas.splice(i, 1);
+          upd();
+        });
+        l.appendChild(cb); l.appendChild(document.createTextNode(DS[parse(d).getDay()] + ' ' + dm(d))); box.appendChild(l);
+      });
+      var pv = el('label', 'f', 'Faltas anteriores, sem data'); var pi2 = document.createElement('input'); pi2.type = 'number'; pi2.min = '0'; pi2.step = '1'; pi2.inputMode = 'numeric'; pi2.value = m.prev || 0; pi2.style.width = '5rem';
+      pi2.addEventListener('input', function () { var v = num(pi2.value); m.prev = v && v > 0 ? Math.round(v) : 0; upd(); });
+      pv.appendChild(pi2); picker.appendChild(pv);
+      picker.appendChild(box);
+      picker.appendChild(el('p', 'sub', 'Todas as aulas desde o início do semestre, com os feriados de fora. Para uma data fora da lista, use o campo abaixo.'));
+      var oth = el('div', 'other'); var oi = document.createElement('input'); oi.type = 'date'; oi.setAttribute('aria-label', 'Outra data de falta');
+      var ob = el('button', 'btn ghost sm', 'Incluir data'); ob.type = 'button';
+      ob.addEventListener('click', function () { if (oi.value && m.faltas.indexOf(oi.value) < 0) { m.faltas.push(oi.value); drawPicker(); upd(); } });
+      oth.appendChild(oi); oth.appendChild(ob); picker.appendChild(oth);
+    }
+    lim.addEventListener('input', function () { var v = num(lim.value); m.limite = v && v > 0 ? Math.round(v) : null; upd(); });
+    val.addEventListener('change', function () { m.valor = +val.value; upd(); });
+    tog.addEventListener('click', function () {
+      picker.hidden = !picker.hidden; tog.setAttribute('aria-expanded', String(!picker.hidden));
+      tog.textContent = picker.hidden ? 'Marcar faltas' : 'Fechar';
+      if (!picker.hidden) drawPicker();
+    });
+    drawEv(); drawAdd(); if (m.modo === 'estat' || m.modo === 'mat2') drawAv(); upd();
+    return c;
+  }
+
+  function top() { renderCal(); renderProx(); renderResumo(); }
+
+  var HOLN = { '2026-09-07':'Independência', '2026-10-12':'Nossa Senhora Aparecida', '2026-10-28':'Dia do Servidor Público', '2026-11-02':'Finados', '2026-11-15':'Proclamação da República', '2026-11-20':'Consciência Negra', '2026-12-25':'Natal', '2027-01-01':'Ano Novo', '2027-02-08':'Carnaval', '2027-02-09':'Carnaval', '2027-03-26':'Paixão de Cristo' };
+  var calM = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1), calSel = null;
+  function evByDate() {
+    var map = {};
+    S.mats.forEach(function (m) {
+      m.ev.forEach(function (e) { if (e.date) (map[e.date] = map[e.date] || []).push({ n:e.n, tipo:e.tipo, m:m, conf:e.conf }); });
+      m.avs.forEach(function (a) { if (a.date) (map[a.date] = map[a.date] || []).push({ n:a.n, tipo:'av', m:m }); });
+    });
+    return map;
+  }
+  function renderCal() {
+    var MESN = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    var COR = { prova:'--coral', seminario:'--coral', trabalho:'--peach', av:'--sage' }, RANK = { prova:3, seminario:3, trabalho:2, av:1 };
+    var map = evByDate(), g = document.getElementById('cal-g'); g.textContent = '';
+    var hj = document.getElementById('cal-hoje'); hj.classList.toggle('on', calM.getFullYear() === TODAY.getFullYear() && calM.getMonth() === TODAY.getMonth() && !calSel);
+    document.getElementById('cal-t').textContent = MESN[calM.getMonth()] + ' ' + calM.getFullYear();
+    ['d','s','t','q','q','s','s'].forEach(function (x) { g.appendChild(el('div', 'dw', x)); });
+    var first = new Date(calM.getFullYear(), calM.getMonth(), 1), start = new Date(first); start.setDate(1 - first.getDay());
+    var weeks = Math.ceil((first.getDay() + new Date(calM.getFullYear(), calM.getMonth() + 1, 0).getDate()) / 7);
+    for (var i = 0; i < weeks * 7; i++) {
+      var d = new Date(start); d.setDate(start.getDate() + i);
+      var key = iso(d), its = map[key] || [], b = el('button', 'cd'); b.type = 'button';
+      if (d.getMonth() !== calM.getMonth()) b.classList.add('out');
+      if (key === iso(TODAY)) b.classList.add('today');
+      if (HOLN[key]) { b.classList.add('folga'); b.title = HOLN[key]; }
+      b.appendChild(el('span', null, String(d.getDate())));
+      if (its.length) {
+        var top = its.slice().sort(function (a, b2) { return RANK[b2.tipo] - RANK[a.tipo]; })[0];
+        b.classList.add('has'); b.style.setProperty('--c', 'var(' + COR[top.tipo] + ')');
+        if (its.length > 1) b.classList.add('many');
+        if (key === calSel) b.classList.add('sel');
+        b.setAttribute('aria-label', d.getDate() + ' de ' + MESN[d.getMonth()] + ', ' + its.length + (its.length === 1 ? ' item' : ' itens'));
+        (function (k) { b.addEventListener('click', function () { calSel = calSel === k ? null : k; renderCal(); }); })(key);
+      } else b.tabIndex = -1;
+      g.appendChild(b);
+    }
+    var det = document.getElementById('cal-d'); det.textContent = '';
+    var key2 = calSel, list = key2 ? (map[key2] || []) : null;
+    if (!list) {
+      var pref = iso(calM).slice(0, 7), ks = Object.keys(map).filter(function (k) { return k.slice(0, 7) === pref; }).sort();
+      if (!ks.length) { det.appendChild(el('p', 'vazio', 'Nada marcado neste mês.')); return; }
+      det.appendChild(el('div', 'dh', 'neste mês'));
+      ks.forEach(function (k) { map[k].forEach(function (x) { var r = el('div', 'it'); r.style.setProperty('--c', 'var(' + COR[x.tipo] + ')'); r.appendChild(el('b', null, x.n)); r.appendChild(el('small', null, dm(k) + ' · ' + DS[parse(k).getDay()] + ' · ' + x.m.nome + ' · ' + TIPOS[x.tipo])); det.appendChild(r); }); });
+      return;
+    }
+    var dd = parse(key2);
+    det.appendChild(el('div', 'dh', DIAS[dd.getDay()] + ', ' + dm(key2)));
+    list.forEach(function (x) { var r = el('div', 'it'); r.style.setProperty('--c', 'var(' + COR[x.tipo] + ')'); r.appendChild(el('b', null, x.n)); r.appendChild(el('small', null, x.m.nome + ' · ' + TIPOS[x.tipo] + (x.conf === false ? ' · a confirmar' : ''))); det.appendChild(r); });
+  }
+  document.getElementById('cal-hoje').addEventListener('click', function () { calM = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1); calSel = null; renderCal(); });
+  document.getElementById('cal-prev').addEventListener('click', function () { calM = new Date(calM.getFullYear(), calM.getMonth() - 1, 1); calSel = null; renderCal(); });
+  document.getElementById('cal-next').addEventListener('click', function () { calM = new Date(calM.getFullYear(), calM.getMonth() + 1, 1); calSel = null; renderCal(); });
+
+  var pxAll = false;
+  function renderProx() {
+    pxEl.textContent = '';
+    var items = [];
+    S.mats.forEach(function (m) { m.ev.forEach(function (e) { if (e.date && parse(e.date) >= TODAY) items.push({ e:e, m:m }); }); m.avs.forEach(function (a) { if (a.date && !a.feita && parse(a.date) >= TODAY) items.push({ e:{ n:a.n, tipo:'av', date:a.date }, m:m }); }); });
+    items.sort(function (a, b) { return a.e.date < b.e.date ? -1 : (a.e.date > b.e.date ? 1 : 0); });
+    if (!items.length) { pxEl.appendChild(el('li', null, 'Nenhuma avaliação com data pela frente.')); return; }
+    var groups = [], map = {};
+    items.forEach(function (it) { var g = map[it.e.date]; if (!g) { g = map[it.e.date] = { date:it.e.date, its:[] }; groups.push(g); } g.its.push(it); });
+    var shown = pxAll ? groups : groups.slice(0, 6), lastMes = -1;
+    var COR = { prova:'--coral', seminario:'--coral', trabalho:'--peach', av:'--sage' };
+    var MESN = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    shown.forEach(function (g, gi) {
+      var d = parse(g.date), n = days(TODAY, d);
+      if (d.getMonth() !== lastMes) {
+        lastMes = d.getMonth();
+        var lm = el('li', 'pm'); lm.appendChild(el('div')); lm.appendChild(el('div', 'rl')); lm.appendChild(el('div', 'mm', MESN[d.getMonth()])); pxEl.appendChild(lm);
+      }
+      var li = el('li', 'pd' + (gi === 0 ? ' prim' : ''));
+      var dd = el('div', 'dd'); dd.appendChild(el('small', null, DS[d.getDay()])); dd.appendChild(el('b', null, String(d.getDate())));
+      li.appendChild(dd); li.appendChild(el('div', 'rl'));
+      var box = el('div', 'its');
+      g.its.forEach(function (it) {
+        var row = el('div', 'it'); row.style.setProperty('--c', 'var(' + (COR[it.e.tipo] || '--sage') + ')');
+        row.appendChild(el('b', null, it.e.n));
+        row.appendChild(el('small', null, it.m.nome + ' · ' + (n === 0 ? 'hoje' : (n === 1 ? 'amanhã' : 'em ' + n + ' dias')) + (it.e.conf === false ? ' · a confirmar' : '') + (it.e.cond ? ' · ' + it.e.cond : '')));
+        row.appendChild(el('span', 'tag', TIPOS[it.e.tipo]));
+        box.appendChild(row);
+      });
+      li.appendChild(box); pxEl.appendChild(li);
+    });
+    var old = document.getElementById('px-mais'); if (old) old.remove();
+    if (groups.length > 6) {
+      var b = el('button', 'pill mais', pxAll ? 'mostrar menos' : 'ver as próximas ' + (groups.length - 6) + ' datas'); b.id = 'px-mais'; b.type = 'button';
+      b.addEventListener('click', function () { pxAll = !pxAll; renderProx(); });
+      pxEl.parentNode.appendChild(b);
+    }
+  }
+
+  function renderResumo() {
+    var set = S.mats.filter(function (m) { return m.limite; });
+    var hotL = set.filter(hot);
+    var t;
+    if (!set.length) t = 'Defina os limites de faltas de cada matéria para acompanhar o semestre.';
+    else if (hotL.length) t = 'Atenção às faltas em ' + hotL.map(function (m) { return m.nome; }).join(' e ') + '.';
+    else t = 'Faltas sob controle.';
+    resumoEl.textContent = document.getElementById('semestre').value + ', aulas de 17/08 a 02/12. ' + t;
+  }
+
+  function renderAll() {
+    matsEl.textContent = '';
+    S.mats.forEach(function (m) { matsEl.appendChild(build(m)); });
+    minEl.value = S.minimo == null ? '' : fmt(S.minimo);
+    S.mats.forEach(function () {});
+    top();
+  }
+
+  minEl.addEventListener('input', function () { S.minimo = num(minEl.value); Array.prototype.forEach.call(matsEl.children, function (c) { c._upd(); }); });
+  document.getElementById('semestre').addEventListener('input', function () { document.getElementById('sem-chip').textContent = this.value; renderResumo(); });
+  var dBtn = document.getElementById('demo'), dBar = document.getElementById('demo-b');
+  dBtn.addEventListener('click', function () {
+    isDemo = !isDemo; S = isDemo ? demo : real;
+    dBtn.setAttribute('aria-pressed', String(isDemo)); dBtn.textContent = isDemo ? 'voltar aos meus dados' : 'ver com exemplo';
+    dBar.hidden = !isDemo; renderAll();
+  });
+  renderAll();
+})();
+</script>
+
+<style>
+[hidden]{display:none!important} html{color-scheme:light} body{margin:0}
+.pl-rail{position:fixed;left:0;top:0;bottom:0;width:168px;z-index:30;display:flex;flex-direction:column;justify-content:space-between;padding:34px 14px 22px 22px;border-right:1px solid var(--line);background:var(--bg);box-sizing:border-box}
+.pl-tabs{display:flex;flex-direction:column;gap:10px}
+.pl-tab{display:block;font-family:var(--display);font-style:italic;font-size:1.2rem;line-height:1.2;color:var(--muted);text-decoration:none;padding:4px 0}
+.pl-tab:hover{color:var(--ink)} .pl-tab[aria-current="page"]{color:var(--ink);font-size:1.5rem}
+.pl-tab small{display:block;font-family:var(--body);font-style:normal;font-size:10.5px;letter-spacing:.04em}
+.pl-tab:focus-visible,.pl-theme:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.pl-theme{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0}
+.pl-theme svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+body{padding-left:calc(168px + 16px)!important}
+@media (max-width:820px){
+ .pl-rail{width:50px;padding:22px 0 16px;align-items:center}
+ .pl-tabs{align-items:center;gap:14px}
+ .pl-tab{writing-mode:vertical-rl;transform:rotate(180deg);font-size:1.05rem;padding:0;text-align:center}
+ .pl-tab[aria-current="page"]{font-size:1.3rem} .pl-tab small{display:none}
+ body{padding-left:calc(50px + 12px)!important;padding-right:12px!important}
+}
+</style>
+<nav class="pl-rail" aria-label="Abas"><div class="pl-tabs"><a class="pl-tab" href="index.html">Hoje</a><a class="pl-tab" href="faculdade.html" aria-current="page">Faculdade</a><a class="pl-tab" href="metas.html">Metas</a><a class="pl-tab" href="wishlist.html">Wishlist</a><a class="pl-tab" href="repertorio.html">Repertório</a><a class="pl-tab" href="cursos.html">Cursos</a></div><button id="pl-theme" class="pl-theme" type="button" aria-label="Alternar modo claro e escuro"></button></nav>
+<script>
+(function(){var r=document.documentElement,k='pl-theme';try{var s=localStorage.getItem(k);if(s)r.dataset.theme=s}catch(e){}
+var SUN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg>',MOON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>';
+function dark(){return r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches}
+var b=document.getElementById('pl-theme');function icon(){b.innerHTML=dark()?SUN:MOON}
+b.addEventListener('click',function(){var n=dark()?'light':'dark';r.dataset.theme=n;try{localStorage.setItem(k,n)}catch(e){}icon()});icon();})();
+</script>
