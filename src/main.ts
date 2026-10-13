@@ -4,12 +4,21 @@ import './styles/base.css';
 import './styles/shell.css';
 
 import { registerSW } from 'virtual:pwa-register';
+import { iniciarLogin, reiniciarSeSair, supabase, temSessaoValida } from './auth';
+import type { Contexto } from './contexto';
+import { BancoLocal } from './db';
+import { mostrarTelaDeLogin } from './login';
+import { remotoSupabase } from './remoto';
 import { aoMudarDestino, lerDestino, ROTAS, type Rota } from './router';
+import { criarStatusDeSync } from './statusSync';
+import { textos } from './strings';
+import { Sincronizador } from './sync';
 import { desenharAba } from './tabs';
 import { ligarBotaoDeTema } from './theme';
-import { textos } from './strings';
 
-function montarCasca(raiz: HTMLElement): { principal: HTMLElement; links: Map<Rota, HTMLAnchorElement> } {
+declare const __E2E__: boolean;
+
+function montarCasca(raiz: HTMLElement, ctx: Contexto): { principal: HTMLElement; links: Map<Rota, HTMLAnchorElement> } {
   const pular = document.createElement('a');
   pular.className = 'skip';
   pular.href = '#conteudo';
@@ -45,8 +54,8 @@ function montarCasca(raiz: HTMLElement): { principal: HTMLElement; links: Map<Ro
   tema.type = 'button';
   tema.className = 'theme';
   tema.setAttribute('aria-label', textos.tema.alternar);
-  fim.appendChild(tema);
   ligarBotaoDeTema(tema);
+  fim.append(tema, criarStatusDeSync(ctx.sinc));
 
   nav.append(abas, fim);
 
@@ -60,10 +69,29 @@ function montarCasca(raiz: HTMLElement): { principal: HTMLElement; links: Map<Ro
   return { principal, links };
 }
 
-function iniciar(): void {
+async function iniciar(): Promise<void> {
   const raiz = document.getElementById('app');
   if (!raiz) return;
-  const { principal, links } = montarCasca(raiz);
+
+  // Versão nova assume na próxima abertura, em silêncio.
+  registerSW();
+  // Pede ao navegador para não limpar os dados do app.
+  void navigator.storage?.persist?.();
+
+  const banco = await BancoLocal.abrir();
+  const login = await iniciarLogin(banco);
+  if (login.tipo === 'precisa-entrar') {
+    mostrarTelaDeLogin(raiz, login.motivo);
+    return;
+  }
+
+  const sinc = new Sincronizador(banco, remotoSupabase(supabase), {
+    temSessao: temSessaoValida,
+    // No build de testes não há servidor: o app fica no modo sem internet.
+    estaOnline: __E2E__ ? () => false : undefined,
+  });
+  const ctx: Contexto = { banco, sinc };
+  const { principal, links } = montarCasca(raiz, ctx);
 
   let primeira = true;
   const mostrar = () => {
@@ -73,7 +101,7 @@ function iniciar(): void {
       if (rota === destino.rota) a.setAttribute('aria-current', 'page');
       else a.removeAttribute('aria-current');
     }
-    desenharAba(destino, principal);
+    desenharAba(destino, principal, ctx);
     if (!primeira) {
       principal.focus({ preventScroll: true });
       window.scrollTo(0, 0);
@@ -83,10 +111,8 @@ function iniciar(): void {
   aoMudarDestino(mostrar);
   mostrar();
 
-  // Versão nova assume na próxima abertura, em silêncio.
-  registerSW();
-  // Pede ao navegador para não limpar os dados do app.
-  void navigator.storage?.persist?.();
+  if (!__E2E__) reiniciarSeSair();
+  sinc.iniciar();
 }
 
-iniciar();
+void iniciar();

@@ -1,5 +1,10 @@
 import { expect, test } from '@playwright/test';
 
+// O build de testes aceita este marcador no aparelho para simular a conta, sem passar pelo Google.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('e2e-usuario', '1'));
+});
+
 const ABAS = ['Hoje', 'Faculdade', 'Metas', 'Wishlist', 'Repertório', 'Cursos'];
 const HASH = ['hoje', 'faculdade', 'metas', 'wishlist', 'repertorio', 'cursos'];
 
@@ -43,6 +48,7 @@ test('sem rolagem horizontal em nenhuma aba', async ({ page }) => {
 
 test('o menu muda de forma no celular e no computador', async ({ page }) => {
   await page.goto('/');
+  await page.getByRole('navigation', { name: 'Abas' }).waitFor();
   const largura = await page.evaluate(() => document.querySelector('nav')!.getBoundingClientRect().width);
   const viewport = page.viewportSize()!.width;
   if (viewport <= 820) expect(Math.round(largura)).toBe(50);
@@ -52,12 +58,14 @@ test('o menu muda de forma no celular e no computador', async ({ page }) => {
 test('alvos de toque de pelo menos 40px no celular', async ({ page }) => {
   await page.goto('/');
   test.skip(page.viewportSize()!.width > 820, 'regra do celular');
-  const caixas = await page.locator('.tab, .theme').evaluateAll((els) =>
+  await page.getByRole('navigation', { name: 'Abas' }).waitFor();
+  const caixas = await page.locator('.tab, .theme, .sync').evaluateAll((els) =>
     els.map((e) => {
       const r = e.getBoundingClientRect();
       return { w: r.width, h: r.height };
     }),
   );
+  expect(caixas.length).toBeGreaterThanOrEqual(8);
   for (const c of caixas) {
     expect(c.w).toBeGreaterThanOrEqual(39.5);
     expect(c.h).toBeGreaterThanOrEqual(39.5);

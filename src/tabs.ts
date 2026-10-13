@@ -1,4 +1,5 @@
 /** Cada aba desenha sua tela dentro do <main>. Nesta fase as abas ainda são cascas, sem nenhum conteúdo. */
+import type { Contexto } from './contexto';
 import type { Destino, Rota } from './router';
 import { textos } from './strings';
 
@@ -16,7 +17,7 @@ function casca(rota: Rota, destino: HTMLElement): void {
   destino.append(titulo, el('p', 'pagina-aviso', textos.provisorio));
 }
 
-const telas: Record<Rota, (destino: HTMLElement, d: Destino) => void> = {
+const telas: Record<Rota, (destino: HTMLElement, d: Destino, ctx: Contexto) => void> = {
   hoje: (el_) => casca('hoje', el_),
   faculdade: (el_) => casca('faculdade', el_),
   metas: (el_) => casca('metas', el_),
@@ -25,8 +26,8 @@ const telas: Record<Rota, (destino: HTMLElement, d: Destino) => void> = {
   cursos: (el_) => casca('cursos', el_),
 };
 
-export function desenharAba(destino: Destino, principal: HTMLElement): void {
+export function desenharAba(destino: Destino, principal: HTMLElement, ctx: Contexto): void {
   principal.replaceChildren();
   principal.dataset['rota'] = destino.rota;
-  telas[destino.rota](principal, destino);
+  telas[destino.rota](principal, destino, ctx);
 }
