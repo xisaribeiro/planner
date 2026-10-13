@@ -33,7 +33,9 @@ function cspNoHtml(): Plugin {
   };
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  // Só o build de testes automáticos (mode e2e) aceita o marcador que simula a conta, sem Google.
+  define: { __E2E__: JSON.stringify(mode === 'e2e') },
   base: './',
   build: { target: 'es2022', sourcemap: false },
   preview: { headers: cabecalhosGlobais() },
@@ -72,4 +74,4 @@ export default defineConfig({
     include: ['tests/unit/**/*.test.ts'],
     environment: 'node',
   },
-});
+}));

@@ -21,6 +21,24 @@ export const textos = {
   tema: {
     alternar: 'Alternar modo claro e escuro',
   },
+  login: {
+    titulo: 'Planner',
+    texto: 'O seu planner pessoal. Entre com a sua conta Google para continuar.',
+    botao: 'Entrar com Google',
+    entrando: 'Abrindo o Google',
+    recusada: 'Esta conta não tem acesso a este planner. Use a conta da Isabelle.',
+    erro: 'Não foi possível entrar agora. Tente de novo.',
+    semInternet: 'Sem internet. Conecte-se para entrar pela primeira vez neste aparelho.',
+  },
+  sync: {
+    rotulo: 'Estado da sincronização',
+    sincronizado: 'Tudo sincronizado',
+    sincronizando: 'Sincronizando',
+    aguardando: 'Há alterações esperando para sincronizar',
+    offline: 'Sem internet. Tudo continua funcionando e sobe quando a internet voltar.',
+    semSessao: 'Entre de novo para sincronizar. Abra o app com internet.',
+    erro: 'Não foi possível sincronizar agora. Vou tentar de novo.',
+  },
   provisorio: 'Esta aba chega nas próximas fases do planner.',
   saudacao: {
     manha: 'Bom dia',
