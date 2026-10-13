@@ -1,6 +1,6 @@
 /// <reference types="vitest/config" />
 import { readFileSync } from 'node:fs';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 /** Lê os cabeçalhos de public/_headers (bloco "/*") para o preview usar a mesma CSP da hospedagem. */
@@ -18,11 +18,27 @@ function cabecalhosGlobais(): Record<string, string> {
   return out;
 }
 
+/** No build, coloca a mesma CSP no HTML, para hospedagens que não leem public/_headers (como o GitHub Pages). */
+function cspNoHtml(): Plugin {
+  return {
+    name: 'csp-no-html',
+    apply: 'build',
+    transformIndexHtml() {
+      const csp = cabecalhosGlobais()['Content-Security-Policy'];
+      if (!csp) return [];
+      // frame-ancestors só vale em cabeçalho HTTP, não em <meta>.
+      const valor = csp.split(';').map((d) => d.trim()).filter((d) => d && !d.startsWith('frame-ancestors')).join('; ');
+      return [{ tag: 'meta', attrs: { 'http-equiv': 'Content-Security-Policy', content: valor }, injectTo: 'head-prepend' }];
+    },
+  };
+}
+
 export default defineConfig({
   base: './',
   build: { target: 'es2022', sourcemap: false },
   preview: { headers: cabecalhosGlobais() },
   plugins: [
+    cspNoHtml(),
     VitePWA({
       // Sem pop-ups: a versão nova espera e assume na próxima abertura do app.
       registerType: 'prompt',

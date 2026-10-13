@@ -1,16 +1,14 @@
 # Hospedagem (HTTPS gratuito)
 
-O app é estático. Qualquer hospedagem estática com HTTPS serve. A recomendada é o Cloudflare Pages, porque é gratuito, funciona com repositório privado e lê o arquivo `public/_headers` (a política de segurança do app).
+O app é estático e fica no GitHub Pages, que já faz parte do repositório dela e não exige conta nova.
+O arquivo `.github/workflows/publicar.yml` roda os testes, constrói o app e publica a cada alteração na branch `main`.
 
-Configuração do projeto no Cloudflare Pages:
-- Repositório: `xisaribeiro/planner`
-- Branch de produção: a branch principal do repositório
-- Comando de build: `npm run build`
-- Pasta de saída: `dist`
-- Variável de ambiente `NODE_VERSION`: `22`
+Ajuste único, feito por ela no GitHub:
+1. Abrir o repositório `planner`, aba Settings, menu Pages.
+2. Em "Build and deployment", escolher Source: "GitHub Actions".
 
-O app usa caminhos relativos e roteamento por hash, então não precisa de regra de redirecionamento.
+O endereço será `https://xisaribeiro.github.io/planner/`. O app usa caminhos relativos e roteamento por hash, então funciona nesse subcaminho.
+Esse endereço será usado como URL de retorno do login com Google no Supabase (fase 2) e é o que ela instala na tela inicial.
 
-Depois do primeiro deploy, o endereço (algo como `planner-xxxx.pages.dev`) será usado:
-- como URL de retorno do login com Google no Supabase (fase 2),
-- como a página que ela instala na tela inicial do iPhone, do iPad e do notebook.
+Observação: o GitHub Pages não lê `public/_headers`. Por isso o build também coloca a política de segurança (CSP) no HTML, a partir do mesmo arquivo.
+O repositório é público, então nenhum segredo entra nele. Os dados dela ficam no Supabase, protegidos por login e RLS.
